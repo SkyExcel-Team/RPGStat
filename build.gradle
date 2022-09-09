@@ -1,0 +1,35 @@
+
+plugins {
+    id 'java'
+    id 'kr.entree.spigradle' version '2.2.4'
+}
+
+group 'org.sample'
+version '1.0-SNAPSHOT'
+apply plugin: 'groovy'
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    maven { url "https://mvn.lumine.io/repository/maven-public/" }
+    maven { url "https://mvn.lumine.io/repository/maven-public/" }
+    maven {url = 'https://repo.codemc.org/repository/maven-public/'}
+
+    maven {url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'}
+
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+    maven { url 'https://jitpack.io' }
+
+
+}
+dependencies {
+    compileOnly 'de.tr7zw:item-nbt-api-plugin:2.10.0'
+    compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT") // The Spigot API with no shadowing. Requires the OSS repo.
+    compileOnly("org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT")
+    compileOnly fileTree(dir: 'api', include: ['*.jar'])
+    implementation 'com.github.SkyExcel-Team:SkyExcelCore:v1.0.2'
+
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
