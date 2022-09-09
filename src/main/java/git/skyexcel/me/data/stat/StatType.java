@@ -1,4 +1,4 @@
-package git.skyexcel.me.data;
+package git.skyexcel.me.data.stat;
 
 public enum StatType {
     Max_Health,
@@ -6,5 +6,6 @@ public enum StatType {
     Farm,
     Mine,
     Fall,
-    Speed
+    Speed,
+    LevelUp
 }

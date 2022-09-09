@@ -1,5 +1,9 @@
 package git.skyexcel.me.cmd;
 
+import git.skyexcel.me.data.stat.StatConfigData;
+import git.skyexcel.me.data.stat.StatData;
+import git.skyexcel.me.data.stat.Stat;
+import git.skyexcel.me.data.stat.StatType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,33 +14,26 @@ public class StatEditCMD implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-
+            StatConfigData stat;
             if(args.length > 1){
+
                 switch (args[0]){
-                    case "추가":
+
+                    case "열기":
 
                         break;
-                    case "수정":
+                    case "추가":
 
                         break;
                     case "이름수정":
 
                         break;
-                    case "설명문":
+
+                    case "아이템":
 
                         break;
-                    case "설명문삭제":
 
-                        break;
-                    case "아이콘":
 
-                        break;
-                    case "한도":
-
-                        break;
-                    case "삭제":
-
-                        break;
                     case "리스트":
 
                         break;

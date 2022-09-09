@@ -2,10 +2,13 @@ package git.skyexcel.me.event;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.potion.Potion;
 
 public class DamageEvent implements Listener {
     @EventHandler
@@ -19,12 +22,14 @@ public class DamageEvent implements Listener {
 
                 break;
             case ENTITY_ATTACK:
-                if(event.getDamager() instanceof Arrow){
+                if(event.getDamager() instanceof ThrownPotion){//Potion 데미지를 입을때
+
+                } else if(event.getDamager() instanceof Fireball){//FireBall로 데미지를 입을때
+
+                } else if(event.getDamager() instanceof Arrow){ //화살로 데미지를 입을때
                     Arrow arrow = (Arrow) event.getDamager();
 
                 }
-
-
                 break;
         }
     }
