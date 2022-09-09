@@ -2,8 +2,12 @@ package git.skyexcel.me.data.stat;
 
 import data.Config;
 import git.skyexcel.me.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
@@ -92,10 +96,15 @@ public class StatData implements Stat{
 
     public void statGUI(StatConfigData data){
         ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
+        Inventory inv = Bukkit.createInventory(null,27,player.getDisplayName() + ChatColor.GOLD + " 님의 스텟");
         for(String keys : section.getKeys(true)){
             double stats = addModifier(StatType.valueOf(keys)).getStat();
             String name = data.translate(keys);
+            ItemStack item = data.getItems(keys);
+
+            System.out.print(name + " : " + stats);
         }
+        player.openInventory(inv);
     }
 
     private void setValue(String path, double value){

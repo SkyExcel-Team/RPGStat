@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class StatConfigData implements Stat{
 
-    private StatType type;
+    private StatType statType;
     private String name;
     private double value;
 
@@ -30,15 +30,55 @@ public class StatConfigData implements Stat{
 
     @Override
     public Stat addModifier(StatType stat) {
-        this.type = stat;
-        return this;
+        if(this.statType != null){
+            this.statType = stat;
+            return this;
+        }
+        return null;
     }
 
     @Override
     public void setStat(double value) {
+        Objects.requireNonNull(statType, "StatType is null!");
 
+        switch (statType){
+            case Max_Health:
+                setValue("stat." + statType.name(),value);
+                break;
+            case Fall:
+                setValue("stat." + statType.name(),value);
+                break;
+            case Farm:
+                setValue("stat." + statType.name(),value);
+                break;
+            case Mine:
+                setValue("stat." + statType.name(),value);
+                break;
+            case Speed:
+                setValue("stat." + statType.name(),value);
+                break;
+            case Attack_Damage:
+                setValue("stat." + statType.name(),value);
+                break;
+            case Critical_Damage:
+                setValue("stat." + statType.name(),value);
+                break;
+            case Ranged_Attack_Damage:
+
+                setValue("stat.",value);
+                break;
+            case LevelUp:
+
+                setValue("stat.",value);
+                break;
+        }
+        config.saveConfig();
     }
-
+    private void setValue(String path, double value){
+        if(config.getConfig().get(path) == null)
+            config.setDouble(path,value);
+        config.setDouble(path,config.getDouble(path) + value);
+    }
 
     public void setName(String name,String key){
         this.name = name;
@@ -56,28 +96,100 @@ public class StatConfigData implements Stat{
     public String translate(String key) {
         Objects.requireNonNull(config, "Config is null!");
         Objects.requireNonNull(key, "key is null!");
+        if(config.getConfig().get(key + ".name") == null){
+            switch (key) {
+                case "Max_Health":
+                    return config.getString(key + ".name");
+                case "Fall":
+                    return config.getString(key + ".name");
+                case "Farm":
+                    return config.getString(key + ".name");
+                case "Mine":
+                    return config.getString(key + ".name");
+                case "Speed":
+                    return config.getString(key + ".name");
+                case "Attack_Damage":
+                    return config.getString(key + ".name");
+                case "Critical_Damage":
+                    return config.getString(key + ".name");
 
-        switch (key) {
-            case "Max_Health":
-                return config.getString(key + ".name");
-            case "Fall":
-                return config.getString(key + ".name");
-            case "Farm":
-                return config.getString(key + ".name");
-            case "Mine":
-                return config.getString(key + ".name");
-            case "Speed":
-                return config.getString(key + ".name");
-            case "Attack_Damage":
-                return config.getString(key + ".name");
-            case "Critical_Damage":
-                return config.getString(key + ".name");
-
-            case "Ranged_Attack_Damage":
-                return config.getString(key + ".name");
+                case "Ranged_Attack_Damage":
+                    return config.getString(key + ".name");
+            }
+        } else{
+            statType= null;
         }
         return null;
     }
+    public ItemStack getItems(String key) {
+        Objects.requireNonNull(config, "Config is null!");
+        Objects.requireNonNull(key, "key is null!");
+        ItemStack item;
+        switch (key) {
+            case "Max_Health":
+                item = (ItemStack) config.getConfig().get(key + ".name");
+                return item;
+            case "Fall":
+                item = (ItemStack) config.getConfig().get(key + ".name");
+                return item;
+            case "Farm":
+                item = (ItemStack) config.getConfig().get(key + ".name");
+                return item;
+            case "Mine":
+                item = (ItemStack) config.getConfig().get(key + ".name");
+                return item;
+            case "Speed":
+                item = (ItemStack) config.getConfig().get(key + ".name");
+                return item;
+            case "Attack_Damage":
+                item = (ItemStack) config.getConfig().get(key + ".name");
+                return item;
+            case "Critical_Damage":
+                item = (ItemStack) config.getConfig().get(key + ".name");
+                return item;
+
+            case "Ranged_Attack_Damage":
+                item = (ItemStack) config.getConfig().get(key + ".name");
+                return item;
+        }
+        statType = null;
+        return null;
+    }
+    public int getSlots(String key) {
+        Objects.requireNonNull(config, "Config is null!");
+        Objects.requireNonNull(key, "key is null!");
+
+        switch (key) {
+            case "Max_Health":
+
+                return  config.getInteger(key + ".slot");
+            case "Fall":
+
+                return  config.getInteger(key + ".slot");
+            case "Farm":
+
+                return  config.getInteger(key + ".slot");
+            case "Mine":
+
+                return  config.getInteger(key + ".slot");
+            case "Speed":
+
+                return  config.getInteger(key + ".slot");
+            case "Attack_Damage":
+
+                return  config.getInteger(key + ".slot");
+            case "Critical_Damage":
+
+                return  config.getInteger(key + ".slot");
+
+            case "Ranged_Attack_Damage":
+
+                return  config.getInteger(key + ".slot");
+        }
+        statType = null;
+        return -1;
+    }
+
     public void listGUI(){
         Inventory inv = Bukkit.createInventory(null,54, name);
 
