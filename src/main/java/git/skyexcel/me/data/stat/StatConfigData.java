@@ -2,6 +2,7 @@ package git.skyexcel.me.data.stat;
 
 import data.Config;
 import de.tr7zw.nbtapi.NBTItem;
+import git.skyexcel.me.Main;
 import git.skyexcel.me.data.gui.item.UtilItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,10 +23,13 @@ public class StatConfigData implements Stat{
 
     private Player player;
 
-    public StatConfigData(  Player player) {
-
-        this.player = player;
+    public StatConfigData() {
         this.config = new Config("config");
+        this.config.setPlugin(Main.plugin);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     @Override
@@ -80,7 +84,7 @@ public class StatConfigData implements Stat{
         config.setDouble(path,config.getDouble(path) + value);
     }
 
-    public void setName(String name,String key){
+    public void setItem(String name,String key){
         this.name = name;
         ItemStack itemStack = player.getInventory().getItemInMainHand();
         NBTItem item = new NBTItem(itemStack);
@@ -127,29 +131,29 @@ public class StatConfigData implements Stat{
         ItemStack item;
         switch (key) {
             case "Max_Health":
-                item = (ItemStack) config.getConfig().get(key + ".name");
+                item = (ItemStack) config.getConfig().get(key + ".item");
                 return item;
             case "Fall":
-                item = (ItemStack) config.getConfig().get(key + ".name");
+                item = (ItemStack) config.getConfig().get(key + ".item");
                 return item;
             case "Farm":
-                item = (ItemStack) config.getConfig().get(key + ".name");
+                item = (ItemStack) config.getConfig().get(key + ".item");
                 return item;
             case "Mine":
-                item = (ItemStack) config.getConfig().get(key + ".name");
+                item = (ItemStack) config.getConfig().get(key + ".item");
                 return item;
             case "Speed":
-                item = (ItemStack) config.getConfig().get(key + ".name");
+                item = (ItemStack) config.getConfig().get(key + ".item");
                 return item;
             case "Attack_Damage":
-                item = (ItemStack) config.getConfig().get(key + ".name");
+                item = (ItemStack) config.getConfig().get(key + ".item");
                 return item;
             case "Critical_Damage":
-                item = (ItemStack) config.getConfig().get(key + ".name");
+                item = (ItemStack) config.getConfig().get(key + ".item");
                 return item;
 
             case "Ranged_Attack_Damage":
-                item = (ItemStack) config.getConfig().get(key + ".name");
+                item = (ItemStack) config.getConfig().get(key + ".item");
                 return item;
         }
         statType = null;

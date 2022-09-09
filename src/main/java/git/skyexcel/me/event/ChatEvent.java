@@ -18,8 +18,8 @@ public class ChatEvent implements Listener {
 
         if(Data.name.containsKey(player.getUniqueId())){
             String name = Data.name.get(player.getUniqueId());
-            StatConfigData data = new StatConfigData(player);
-
+            StatConfigData data = new StatConfigData();
+            data.setPlayer(player);
             if(!Data.line.containsKey(player.getUniqueId())){
                 try{
                     int line = Integer.parseInt(chat);

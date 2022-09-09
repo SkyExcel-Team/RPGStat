@@ -21,7 +21,7 @@ public class StatData implements Stat{
     public StatData(Player player) {
         this.player = player;
         config = new Config(Main.getDataPath(player));
-
+        this.config.setPlugin(Main.plugin);
     }
 
     @Override

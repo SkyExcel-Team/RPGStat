@@ -24,8 +24,8 @@ public class StatEditCMD implements CommandExecutor {
                     case "열기":
                         if(args.length > 1){
                             name = args[1];
-                            stat = new StatConfigData(player);
-
+                            stat = new StatConfigData();
+                            stat.setPlayer(player);
                             Data.name.put(player.getUniqueId(),name);
                         }
                         break;
@@ -39,7 +39,8 @@ public class StatEditCMD implements CommandExecutor {
                     case "아이템":
                         if(args.length > 1){
                             name = args[1];
-                            stat = new StatConfigData(player);
+                            stat = new StatConfigData();
+                            stat.setPlayer(player);
                             StatData data = new StatData(player);
                             data.statGUI(stat);
                             Data.name.put(player.getUniqueId(),name);
