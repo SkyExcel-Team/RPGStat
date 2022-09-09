@@ -2,6 +2,7 @@ package git.skyexcel.me.data.stat;
 
 import data.Config;
 import git.skyexcel.me.Main;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
@@ -10,6 +11,8 @@ public class StatData implements Stat{
     private Player player;
     private StatType statType;
     private Config config;
+
+
 
     public StatData(Player player) {
         this.player = player;
@@ -86,8 +89,13 @@ public class StatData implements Stat{
         }
         return -1;
     }
-    public void getAllStat(){
 
+    public void statGUI(StatConfigData data){
+        ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
+        for(String keys : section.getKeys(true)){
+            double stats = addModifier(StatType.valueOf(keys)).getStat();
+            String name = data.translate(keys);
+        }
     }
 
     private void setValue(String path, double value){

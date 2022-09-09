@@ -18,7 +18,7 @@ public class ChatEvent implements Listener {
 
         if(Data.name.containsKey(player.getUniqueId())){
             String name = Data.name.get(player.getUniqueId());
-            StatConfigData data = new StatConfigData(name,player);
+            StatConfigData data = new StatConfigData(player);
 
             if(!Data.line.containsKey(player.getUniqueId())){
                 try{

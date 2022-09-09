@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class StatConfigData implements Stat{
 
@@ -21,8 +22,8 @@ public class StatConfigData implements Stat{
 
     private Player player;
 
-    public StatConfigData(String name, Player player) {
-        this.name = name;
+    public StatConfigData(  Player player) {
+
         this.player = player;
         this.config = new Config("config");
     }
@@ -39,17 +40,43 @@ public class StatConfigData implements Stat{
     }
 
 
-    public void setName(String name,String path){
+    public void setName(String name,String key){
+        this.name = name;
         ItemStack itemStack = player.getInventory().getItemInMainHand();
         NBTItem item = new NBTItem(itemStack);
         item.applyNBT(itemStack);
 
-        config.setString(path + ".name",name);
-        config.getConfig().set(path + ".item", player.getInventory().getItemInMainHand());
+        config.setString(key + ".name",name);
+        config.getConfig().set(key + ".item", player.getInventory().getItemInMainHand());
         config.saveConfig();
     }
     public void addItem(){
 
+    }
+    public String translate(String key) {
+        Objects.requireNonNull(config, "Config is null!");
+        Objects.requireNonNull(key, "key is null!");
+
+        switch (key) {
+            case "Max_Health":
+                return config.getString(key + ".name");
+            case "Fall":
+                return config.getString(key + ".name");
+            case "Farm":
+                return config.getString(key + ".name");
+            case "Mine":
+                return config.getString(key + ".name");
+            case "Speed":
+                return config.getString(key + ".name");
+            case "Attack_Damage":
+                return config.getString(key + ".name");
+            case "Critical_Damage":
+                return config.getString(key + ".name");
+
+            case "Ranged_Attack_Damage":
+                return config.getString(key + ".name");
+        }
+        return null;
     }
     public void listGUI(){
         Inventory inv = Bukkit.createInventory(null,54, name);
