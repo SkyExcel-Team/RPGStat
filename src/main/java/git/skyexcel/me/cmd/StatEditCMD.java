@@ -1,5 +1,6 @@
 package git.skyexcel.me.cmd;
 
+import git.skyexcel.me.data.Data;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.Stat;
@@ -15,12 +16,18 @@ public class StatEditCMD implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             StatConfigData stat;
-            if(args.length > 1){
+            String name;
+            if(args.length > 0){
 
                 switch (args[0]){
 
                     case "열기":
+                        if(args.length > 1){
+                            name = args[1];
+                            stat = new StatConfigData(name,player);
 
+                            Data.name.put(player.getUniqueId(),name);
+                        }
                         break;
                     case "추가":
 

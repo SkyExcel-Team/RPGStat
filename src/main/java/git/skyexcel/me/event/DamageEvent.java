@@ -22,10 +22,12 @@ public class DamageEvent implements Listener {
 
                 break;
             case ENTITY_ATTACK:
+
                 if(event.getDamager() instanceof ThrownPotion){//Potion 데미지를 입을때
+                    ThrownPotion potion = (ThrownPotion) event.getDamager();
 
                 } else if(event.getDamager() instanceof Fireball){//FireBall로 데미지를 입을때
-
+                    ThrownPotion potion = (ThrownPotion) event.getDamager();
                 } else if(event.getDamager() instanceof Arrow){ //화살로 데미지를 입을때
                     Arrow arrow = (Arrow) event.getDamager();
 
