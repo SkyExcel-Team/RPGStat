@@ -24,14 +24,14 @@ repositories {
 }
 dependencies {
     compileOnly 'de.tr7zw:item-nbt-api-plugin:2.10.0'
-    compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT") // The Spigot API with no shadowing. Requires the OSS repo.
-    compileOnly("org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT")
-    compileOnly 'de.tr7zw:item-nbt-api-plugin:2.10.0'
-
+    compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT") // The Spigot API with no shadowing. Requires the OSS repo.
+    compileOnly("org.spigotmc:spigot:1.18.2-R0.1-SNAPSHOT")
     compileOnly fileTree(dir: 'api', include: ['*.jar'])
-    implementation 'com.github.SkyExcel-Team:SkyExcelCore:v1.0.2'
-
 }
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+
+jar {
+    destinationDirectory.set(file('D:\\Project\\minecraft\\Commission\\플러그인테스트\\1.18.2\\plugins'))
+}

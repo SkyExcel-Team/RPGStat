@@ -7,6 +7,7 @@ public enum StatType {
     Defense,
     Farm,
     Mine,
+    Fish,
     Fall,
     Speed,
     LevelUp

@@ -4,10 +4,10 @@
     <annotationProcessing>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
-        <option name="bungeeAnnotationResultPath" value="$PROJECT_DIR$/build/spigradle/bungee_main" />
-        <option name="nukkitAnnotationResultPath" value="$PROJECT_DIR$/build/spigradle/nukkit_main" />
-        <option name="pluginAnnotationResultPath" value="$PROJECT_DIR$/build/spigradle/plugin_main" />
-        <option name="spigotAnnotationResultPath" value="$PROJECT_DIR$/build/spigradle/spigot_main" />
+        <option name="bungeeAnnotationResultPath" value="D:\Project\minecraft\Commission\플러그인테스트\SkyExcel\RPGStat\build\spigradle\bungee_main" />
+        <option name="nukkitAnnotationResultPath" value="D:\Project\minecraft\Commission\플러그인테스트\SkyExcel\RPGStat\build\spigradle\nukkit_main" />
+        <option name="pluginAnnotationResultPath" value="D:\Project\minecraft\Commission\플러그인테스트\SkyExcel\RPGStat\build\spigradle\plugin_main" />
+        <option name="spigotAnnotationResultPath" value="D:\Project\minecraft\Commission\플러그인테스트\SkyExcel\RPGStat\build\spigradle\spigot_main" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/kr.entree/spigradle-annotations/2.1.1/140e14d5fb373843420f0719f6f83cacc07d8cd1/spigradle-annotations-2.1.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.5.31/ff5d99aecd328872494e8921b72bf6e3af97af3e/kotlin-stdlib-jdk8-1.5.31.jar" />

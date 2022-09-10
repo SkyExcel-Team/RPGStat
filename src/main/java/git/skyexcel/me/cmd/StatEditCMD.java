@@ -17,33 +17,41 @@ public class StatEditCMD implements CommandExecutor {
             Player player = (Player) sender;
             StatConfigData stat;
             String name;
-            if(args.length > 0){
+            if (args.length > 0) {
 
-                switch (args[0]){
+                switch (args[0]) {
 
                     case "열기":
-                        if(args.length > 1){
+                        if (args.length > 1) {
                             name = args[1];
                             stat = new StatConfigData();
                             stat.setPlayer(player);
-                            Data.name.put(player.getUniqueId(),name);
+                            Data.name.put(player.getUniqueId(), name);
+                            stat.listGUI();
                         }
                         break;
                     case "추가":
-
+                        if (args.length > 1) {
+                            name = args[1];
+                            stat = new StatConfigData();
+                            stat.setPlayer(player);
+                            Data.name.put(player.getUniqueId(), name);
+                            stat.listGUI();
+                        }
                         break;
                     case "이름수정":
 
                         break;
 
                     case "아이템":
-                        if(args.length > 1){
+                        if (args.length > 1) {
+                            player.sendMessage("");
                             name = args[1];
                             stat = new StatConfigData();
                             stat.setPlayer(player);
                             StatData data = new StatData(player);
                             data.statGUI(stat);
-                            Data.name.put(player.getUniqueId(),name);
+                            Data.name.put(player.getUniqueId(), name);
                         }
                         break;
 
@@ -52,6 +60,11 @@ public class StatEditCMD implements CommandExecutor {
 
                         break;
                 }
+            } else {
+                stat = new StatConfigData();
+                stat.setPlayer(player);
+                stat.listGUI();
+
             }
 
         }

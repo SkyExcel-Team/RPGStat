@@ -1,17 +1,28 @@
-package git.skyexcel.me;
+package git.skyexcel.me.main;
+
 
 import git.skyexcel.me.cmd.StatCMD;
 import git.skyexcel.me.cmd.StatChangeCMD;
 import git.skyexcel.me.cmd.StatCheckCMD;
 import git.skyexcel.me.cmd.StatEditCMD;
-import git.skyexcel.me.data.stat.StatConfigData;
+import git.skyexcel.me.data.Config;
+import git.skyexcel.me.event.*;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+import java.util.Arrays;
+
+
+public class RPGStatSystem extends JavaPlugin {
     public static String DataPath = "data/";
     public static Plugin plugin;
+
+    public static Config config;
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -20,17 +31,23 @@ public class Main extends JavaPlugin {
         getCommand("스텟변경").setExecutor(new StatChangeCMD());
         getCommand("스텟보기").setExecutor(new StatCheckCMD());
         getCommand("스텟").setExecutor(new StatCMD());
-        StatConfigData data = new StatConfigData();
 
-        data.getConfig().loadDefaultPluginConfig();
-
+        this.config = new Config("config");
+        config.setPlugin(plugin);
+        config.loadDefaultPluginConfig();
+        Listener[] events = {new ChatEvent(), new DamageEvent(), new InventoryEvent(), new JoinEvent(), new LevelUpEvent()};
+        PluginManager pm = Bukkit.getPluginManager();
+        Arrays.stream(events).forEach(classes -> {
+            pm.registerEvents(classes, this);
+        });
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
     }
-    public static String getDataPath(Player player){
+
+    public static String getDataPath(Player player) {
         return DataPath + player.getUniqueId();
     }
 }
