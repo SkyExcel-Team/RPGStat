@@ -5,15 +5,15 @@ api-version: 1.13
 
 
 commands:
-  스텟설정:
+  스탯설정:
     description: 몹 아래나 명령어를 확인합니다.
     aliases: [ 아레나 ]
-  스텟변경:
+  스탯변경:
     description: 몹 아래나 명령어를 확인합니다.
     aliases: [ 아레나 ]
-  스텟보기:
+  스탯보기:
     description: 몹 아래나 명령어를 확인합니다.
     aliases: [ 아레나 ]
-  스텟:
+  스탯:
     description: 몹 아래나 명령어를 확인합니다.
     aliases: [ 아레나 ]

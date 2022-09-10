@@ -5,11 +5,12 @@ import git.skyexcel.me.main.RPGStatSystem;
 import git.skyexcel.me.data.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
 
@@ -38,6 +39,7 @@ public class StatData implements Stat {
         switch (statType) {
             case Max_Health:
                 setValue("stat." + statType.name(), value);
+                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getMaxHealth() + value);
                 break;
             case Fall:
                 setValue("stat." + statType.name(), value);
@@ -107,21 +109,7 @@ public class StatData implements Stat {
         return -1;
     }
 
-    public void statGUI(StatConfigData data) {
-        ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
-        Inventory inv = Bukkit.createInventory(null, 27, player.getDisplayName() + ChatColor.GOLD + " 님의 스텟");
 
-        player.sendMessage(section.getKeys(false) + "" );
-        for (String keys : section.getKeys(false)) {
-
-            double stats = addModifier(StatType.valueOf(keys)).getStat();
-            String name = data.translate(keys);
-            ItemStack item = data.getItems(keys);
-
-            player.sendMessage(stats + "");
-        }
-        player.openInventory(inv);
-    }
 
     private void setValue(String path, double value) {
         if (config.getConfig().get(path) == null)

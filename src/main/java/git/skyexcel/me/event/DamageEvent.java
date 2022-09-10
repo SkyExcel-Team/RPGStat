@@ -81,6 +81,7 @@ public class DamageEvent implements Listener {
                 (legs != null ? legs.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0) +
                 (boot != null ? boot.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0);
     }
+
     public void defense(Player player,double damage) {
         StatData target_data = new StatData(player);
         double defense = target_data.addModifier(StatType.Defense).getStat();

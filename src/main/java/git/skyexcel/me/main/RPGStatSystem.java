@@ -27,11 +27,11 @@ public class RPGStatSystem extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
         plugin = this;
-        getCommand("스텟설정").setExecutor(new StatEditCMD());
-        getCommand("스텟변경").setExecutor(new StatChangeCMD());
-        getCommand("스텟보기").setExecutor(new StatCheckCMD());
-        getCommand("스텟").setExecutor(new StatCMD());
-
+        getCommand("스탯설정").setExecutor(new StatEditCMD());
+        getCommand("스탯설정").setTabCompleter(new StatEditCMD());
+        getCommand("스탯변경").setExecutor(new StatChangeCMD());
+        getCommand("스탯보기").setExecutor(new StatCheckCMD());
+        getCommand("스탯").setExecutor(new StatCMD());
         this.config = new Config("config");
         config.setPlugin(plugin);
         config.loadDefaultPluginConfig();
