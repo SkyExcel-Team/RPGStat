@@ -41,8 +41,11 @@ public class StatConfigData implements Stat {
 
     @Override
     public StatConfigData addModifier(StatType stat) {
-        this.statType = stat;
-        return this;
+        if (config.getConfig().get("stat." + stat.name()) != null) {
+            this.statType = stat;
+            return this;
+        }
+        return null;
     }
 
     @Override
@@ -115,7 +118,7 @@ public class StatConfigData implements Stat {
         Objects.requireNonNull(config, "Config is null!");
         Objects.requireNonNull(key, "key is null!");
         String result = config.getString("stat." + key + ".name");
-         switch (key) {
+        switch (key) {
             case "Max_Health":
                 return ChatColor.translateAlternateColorCodes('&', result);
             case "Fall":
@@ -230,7 +233,6 @@ public class StatConfigData implements Stat {
     }
 
     public void statGUI(StatData data) {
-
         ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
         Inventory inv = Bukkit.createInventory(null, 27, player.getDisplayName() + ChatColor.GOLD + " 님의 스탯");
 
@@ -267,6 +269,21 @@ public class StatConfigData implements Stat {
         player.openInventory(inv);
 
     }
+
+    public boolean equals(String itemname) {
+        ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
+
+        for (String keys : section.getKeys(false)) {
+            if (keys != null) {
+                if (statType.name().equalsIgnoreCase(keys)) {
+                    String name = ChatColor.translateAlternateColorCodes('&',config.getString("stat." + keys + ".name"));
+                    return name.equalsIgnoreCase(itemname);
+                }
+            }
+        }
+        return false;
+    }
+
     public String getName() {
         Objects.requireNonNull(config, "Config is null!");
         Objects.requireNonNull(statType, "StatType is null!");
@@ -278,6 +295,7 @@ public class StatConfigData implements Stat {
         }
         return null;
     }
+
     public boolean equalName(String name) {
         if (translate(statType.name()) != null) {
             return name.equalsIgnoreCase(translate(statType.name()));
