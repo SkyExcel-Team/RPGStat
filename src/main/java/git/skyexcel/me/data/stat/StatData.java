@@ -30,7 +30,7 @@ public class StatData implements Stat {
     @Override
     public void setStat(double value) {
         Objects.requireNonNull(statType, "StatType is null!");
-        if (setIncreasePoint(1)) {
+        if (decreasePoint(1)) {
             switch (statType) {
                 case Max_Health:
                     setValue("stat." + statType.name(), value);
@@ -79,15 +79,20 @@ public class StatData implements Stat {
         config.saveConfig();
     }
 
-    public void setStatPoint(int value) {
+    public void increaseStatPoint(int value) {
         String path = "stat.points";
         if (config.getConfig().get(path) == null)
             config.setInteger(path, 0);
         config.setInteger(path, config.getInteger(path) + value);
     }
 
+    public void setStatPoint(int value) {
+        String path = "stat.points";
 
-    public boolean setIncreasePoint(int value) {
+        config.setInteger(path, value);
+    }
+
+    public boolean decreasePoint(int value) {
         String path = "stat.points";
         if (config.getInteger(path) - value >= 0) {
             config.setInteger(path, config.getInteger(path) - value);

@@ -1,6 +1,7 @@
 package git.skyexcel.me.event;
 
 import git.skyexcel.me.data.Data;
+import git.skyexcel.me.data.gui.GUI;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
@@ -43,13 +44,13 @@ public class InventoryEvent implements Listener {
                             data.addModifier(StatType.Mine).setStat(1);
                         } else if (config.addModifier(StatType.Farm).equals(name)) {
                             data.addModifier(StatType.Farm).setStat(1);
-                        }else if (config.addModifier(StatType.Fish).equals(name)) {
+                        } else if (config.addModifier(StatType.Fish).equals(name)) {
                             data.addModifier(StatType.Fish).setStat(1);
-                        }else if (config.addModifier(StatType.Speed).equals(name)) {
+                        } else if (config.addModifier(StatType.Speed).equals(name)) {
                             data.addModifier(StatType.Speed).setStat(1);
-                        }else if (config.addModifier(StatType.Critical_Damage).equals(name)) {
+                        } else if (config.addModifier(StatType.Critical_Damage).equals(name)) {
                             data.addModifier(StatType.Critical_Damage).setStat(1);
-                        }else if (config.addModifier(StatType.Fall).equals(name)) {
+                        } else if (config.addModifier(StatType.Fall).equals(name)) {
                             data.addModifier(StatType.Fall).setStat(1);
                         }
 
@@ -57,8 +58,16 @@ public class InventoryEvent implements Listener {
 
                     } else if (event.getView().getTitle().equalsIgnoreCase("스텟 설정")) {
                         if (name.equalsIgnoreCase("§fGUI 설정")) {
-                            config.statGUI(data);
+                            GUI.statGUI(config,data,player);
                         }
+
+                        switch (name) {
+                            case Data.upgradeStat:
+                                GUI.UpgradeGUI(player);
+                                break;
+                        }
+                        event.setCancelled(true);
+                    }else if (event.getView().getTitle().equalsIgnoreCase(Data.upgradeStat)){
                         event.setCancelled(true);
                     }
                 }

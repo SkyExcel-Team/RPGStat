@@ -1,5 +1,6 @@
 package git.skyexcel.me.data;
 
+import git.skyexcel.me.data.stat.StatType;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class Data {
     public static HashMap<UUID, List<String>> lore = new HashMap<>();
     public static HashMap<UUID, String> name = new HashMap<>();
 
+    public static HashMap<UUID, StatType> type = new HashMap<>();
     public static HashMap<UUID, Inventory> isAddStast = new HashMap<>();
 
 

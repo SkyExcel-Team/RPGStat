@@ -1,5 +1,6 @@
 package git.skyexcel.me.cmd;
 
+import git.skyexcel.me.data.gui.GUI;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import org.bukkit.command.Command;
@@ -16,7 +17,7 @@ public class StatCMD implements CommandExecutor {
             StatData data = new StatData(player);
             StatConfigData config = new StatConfigData();
             config.setPlayer(player);
-            config.statGUI(data);
+            GUI.statGUI(config,data,player);
         }
 
         return false;
