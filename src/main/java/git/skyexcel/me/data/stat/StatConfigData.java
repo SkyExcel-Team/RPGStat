@@ -22,7 +22,6 @@ public class StatConfigData implements Stat {
 
     public StatConfigData() {
         this.config = RPGStatSystem.config;
-
     }
 
     public void setPlayer(Player player) {
@@ -99,7 +98,9 @@ public class StatConfigData implements Stat {
 
         config.setString("stat." + key + ".name", key.name());
         config.setInteger("stat." + key + ".slot", slot);
+
         config.setDouble("stat." + key + ".upgrade", 1);
+        config.setDouble("stat." + key + ".limit", 0);
         config.getConfig().set("stat." + key + ".item", player.getInventory().getItemInMainHand());
         config.saveConfig();
     }
@@ -227,15 +228,29 @@ public class StatConfigData implements Stat {
     }
 
     public void list() {
-
         ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
 
         player.sendMessage("[ 스텟 종류 ]");
         for (String keys : section.getKeys(false)) {
-            if(!keys.equalsIgnoreCase("point")){
-                player.sendMessage("    ➥" + keys);
+            if (!keys.equalsIgnoreCase("point")) {
+                int upgrade = config.getInteger("stat." + keys + ".upgrade");
+                player.sendMessage(ChatColor.GRAY + "    ➥ " +
+                        ChatColor.GOLD + " 스텟 {" + ChatColor.GRAY + keys + ChatColor.GOLD + "} 강화 {" + ChatColor.WHITE + upgrade + "§6} ");
             }
         }
+    }
+
+    public void setUpgrade(double upgrade, StatType key) {
+
+        config.setDouble("stat." + key + ".upgrade", config.getDouble("stat." + key + ".upgrade") + upgrade);
+        config.saveConfig();
+    }
+
+    public double getUpgradeKey(String key){
+        return config.getDouble("stat." + key + ".upgrade");
+    }
+    public int getUpgrade() {
+        return config.getInteger("stat." + statType.name() + ".upgrade");
     }
 
     public Config getConfig() {

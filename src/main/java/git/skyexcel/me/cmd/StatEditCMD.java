@@ -8,6 +8,7 @@ import git.skyexcel.me.data.stat.Stat;
 import git.skyexcel.me.data.stat.StatType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,13 +27,13 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
                 if (args.length > 0) {
 
                     switch (args[0]) {
-
-                        case "열기":
+                        case "편집":
                             if (args.length > 1) {
-                                name = args[1];
+                                StatType type = StatType.valueOf(args[1]);
+
                                 stat = new StatConfigData();
                                 stat.setPlayer(player);
-                                Data.name.put(player.getUniqueId(), name);
+                                Data.type.put(player.getUniqueId(), type);
                                 GUI.listGUI(player);
                             }
                             break;
@@ -78,6 +79,7 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
                             config.setPlayer(player);
                             config.list();
                             break;
+
                     }
                 } else {
                     stat = new StatConfigData();
@@ -98,7 +100,7 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
 
             result.add("이름수정");
             result.add("아이템");
-            result.add("포인트");
+            result.add("편집");
             result.add("리스트");
 
             return result;
@@ -113,6 +115,17 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
                 case "아이템":
                     result.add("<슬롯 위치>");
 
+                    return result;
+                case "편집":
+                    StatConfigData config = new StatConfigData();
+                    ConfigurationSection section = config.getConfig().getConfig().getConfigurationSection("stat");
+
+
+                    for (String keys : section.getKeys(false)) {
+                        if(!keys.equalsIgnoreCase("point")){
+                            result.add(keys);
+                        }
+                    }
                     return result;
             }
         } else if (args.length == 3) {

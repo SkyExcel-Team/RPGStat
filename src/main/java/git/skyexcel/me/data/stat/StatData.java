@@ -138,11 +138,13 @@ public class StatData implements Stat {
         return -1;
     }
 
-
-
     private void setValue(String path, double value) {
         if (config.getConfig().get(path) == null)
             config.setDouble(path, value);
         config.setDouble(path, config.getDouble(path) + value);
+    }
+
+    public Config getConfig() {
+        return config;
     }
 }

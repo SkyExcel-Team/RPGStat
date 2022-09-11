@@ -26,24 +26,30 @@ public class DamageEvent implements Listener {
         switch (cause) {
 
             case FALL:
+                if (entity instanceof Player) {
+                    Player player = (Player) entity;
 
+
+                }
                 break;
             case ENTITY_ATTACK:
-
                 if (entity instanceof Player) {
+                    Player player = (Player) damager;
+                    Player target = (Player) entity;
+                    StatData data = new StatData(player);
+                    double attack_damage = data.addModifier(StatType.Attack_Damage).getStat();
+                    double ciritical_chance = data.addModifier(StatType.Critical_Damage).getStat();
 
-                    Player player = (Player) entity;
-                    player.sendMessage("데미지 받음");
+
                 } else {
                     Player player = (Player) damager;
                     StatData data = new StatData(player);
                     double attackDamage = data.addModifier(StatType.Attack_Damage).getStat();
                     event.setDamage(attackDamage + event.getDamage());
                     double newdamage = damage *= 1.5F;
-                    player.sendMessage(newdamage + "" );
-
 
                 }
+
                 if (event.getDamager() instanceof ThrownPotion) {//Potion 데미지를 입을때
                     ThrownPotion potion = (ThrownPotion) event.getDamager();
 
@@ -68,16 +74,24 @@ public class DamageEvent implements Listener {
                     }
                 } else if (event.getDamager() instanceof Fireball) {//FireBall로 데미지를 입을때
                     ThrownPotion potion = (ThrownPotion) event.getDamager();
+
                 } else if (event.getDamager() instanceof Arrow) { //화살로 데미지를 입을때
                     Arrow arrow = (Arrow) event.getDamager();
                     if (arrow.getShooter() instanceof Player) { //플레이어가 화살로 공격을 했을 때
                         Player player = (Player) arrow.getShooter();
                         StatData data = new StatData(player);
                         double player_range_damage = data.addModifier(StatType.Ranged_Attack_Damage).getStat();
+
+
                     }
                 }
                 break;
         }
+    }
+
+    public void damage(double damage) {
+
+
     }
 
     public double calculateDamageApplied(double damage, double points, double toughness, int resistance, int epf) {
