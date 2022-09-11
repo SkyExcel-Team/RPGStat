@@ -240,15 +240,29 @@ public class StatConfigData implements Stat {
         }
     }
 
+
+    public void test(StatData data) {
+        ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
+
+        player.sendMessage("[ 스텟 종류 ]");
+        for (String keys : section.getKeys(false)) {
+            if (!keys.equalsIgnoreCase("point")) {
+                data.getConfig().setDouble("stat." + keys, 0);
+            }
+        }
+    }
+
+
     public void setUpgrade(double upgrade, StatType key) {
 
         config.setDouble("stat." + key + ".upgrade", config.getDouble("stat." + key + ".upgrade") + upgrade);
         config.saveConfig();
     }
 
-    public double getUpgradeKey(String key){
+    public double getUpgradeKey(String key) {
         return config.getDouble("stat." + key + ".upgrade");
     }
+
     public int getUpgrade() {
         return config.getInteger("stat." + statType.name() + ".upgrade");
     }

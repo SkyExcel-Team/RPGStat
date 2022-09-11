@@ -48,10 +48,7 @@ public class GUI {
                             UtilItem.newItem(name, item.getType(), 1, Arrays.asList("" +
                                     data.addModifier(StatType.valueOf(keys)).getStat()), slot, inv);
 
-//                            meta.setDisplayName(name);
-//                            meta.setLore(Arrays.asList("" + data.addModifier(StatType.valueOf(keys)).getStat()));
-//                            item.setItemMeta(meta);
-//                            inv.setItem(slot, item);
+
                         }
 
                     }

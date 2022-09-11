@@ -34,19 +34,45 @@ public class DamageEvent implements Listener {
                 break;
             case ENTITY_ATTACK:
                 if (entity instanceof Player) {
-                    Player player = (Player) damager;
-                    Player target = (Player) entity;
-                    StatData data = new StatData(player);
-                    double attack_damage = data.addModifier(StatType.Attack_Damage).getStat();
-                    double ciritical_chance = data.addModifier(StatType.Critical_Damage).getStat();
 
+                    if (damager instanceof Player) { // 데미지를 입힌 사람이 플레일 경우,
+                        Player player = (Player) damager; //데미저를 플레이어로 변환한다
+                        Player target = (Player) entity; //데미지를 입은 사람을 타겟으로 지정한다.
 
+                        StatData player_data = new StatData(player);
+                        StatData target_data = new StatData(target);
+
+                        double attack_damage = player_data.addModifier(StatType.Attack_Damage).getStat();
+                        double ciritical_chance = player_data.addModifier(StatType.Critical_Damage).getStat();
+
+                        double defense = target_data.addModifier(StatType.Defense).getStat();
+
+                        double newdamage = damage * (1 / (1 + (defense)));
+                        event.setDamage(newdamage);
+                        target.sendMessage("방어력 : " + defense + " 데미지 : " + damage + " 방어한 데미지 " + newdamage);
+                        damager.sendMessage("test");
+                    } else {
+                        Player target = (Player) entity; //데미지를 입은 사람을 타겟으로 지정한다.
+                        StatData target_data = new StatData(target);
+
+                        double defense = target_data.addModifier(StatType.Defense).getStat();
+
+                        double result = defense / (1 + defense);
+
+                        double newdamage = damage * (1 / (1 + (defense)));
+                        event.setDamage(newdamage);
+                        target.sendMessage("방어력 : " + defense + " 데미지 : " + damage + " 방어한 데미지 " + newdamage);
+
+                    }
                 } else {
                     Player player = (Player) damager;
                     StatData data = new StatData(player);
                     double attackDamage = data.addModifier(StatType.Attack_Damage).getStat();
                     event.setDamage(attackDamage + event.getDamage());
                     double newdamage = damage *= 1.5F;
+                    player.sendMessage("test");
+
+
 
                 }
 
