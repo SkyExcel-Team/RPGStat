@@ -10,5 +10,7 @@ public enum StatType {
     Fish,
     Fall,
     Speed,
-    LevelUp
+    LevelUp;
+
+
 }

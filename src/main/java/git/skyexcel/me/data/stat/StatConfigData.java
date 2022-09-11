@@ -8,11 +8,13 @@ import git.skyexcel.me.data.gui.item.UtilItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 
 import java.util.Arrays;
@@ -95,13 +97,14 @@ public class StatConfigData implements Stat {
         config.setDouble(path, config.getDouble(path) + value);
     }
 
-    public void setItem(String name, int slot, String key) {
+
+    public void setItem(String name, int slot, StatType key) {
         this.name = name;
         ItemStack itemStack = player.getInventory().getItemInMainHand();
         NBTItem item = new NBTItem(itemStack);
         item.applyNBT(itemStack);
 
-        config.setString("stat." + key + ".name", "");
+        config.setString("stat." + key + ".name", key.name());
         config.setInteger("stat." + key + ".slot", slot);
         config.getConfig().set("stat." + key + ".item", player.getInventory().getItemInMainHand());
         config.saveConfig();
@@ -111,28 +114,28 @@ public class StatConfigData implements Stat {
     public String translate(String key) {
         Objects.requireNonNull(config, "Config is null!");
         Objects.requireNonNull(key, "key is null!");
-
-        switch (key) {
+        String result = config.getString("stat." + key + ".name");
+         switch (key) {
             case "Max_Health":
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
             case "Fall":
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
             case "Farm":
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
             case "Mine":
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
             case "Speed":
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
             case "Attack_Damage":
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
             case "Critical_Damage":
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
 
             case "Ranged_Attack_Damage":
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
             case "Defense":
 
-                return config.getString("stat." + key + ".name");
+                return ChatColor.translateAlternateColorCodes('&', result);
         }
 
         return null;
@@ -145,6 +148,7 @@ public class StatConfigData implements Stat {
         switch (key) {
             case "Max_Health":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
+
                 return item;
             case "Fall":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
@@ -216,37 +220,73 @@ public class StatConfigData implements Stat {
     public void listGUI() {
         Inventory inv = Bukkit.createInventory(null, 27, "스텟 설정");
 
-        UtilItem.newItem(Data.addStat, Material.ENDER_EYE, 1, Arrays.asList(""), 10, inv);
+        UtilItem.newItem(Data.addStat, Material.EYE_OF_ENDER, 1, Arrays.asList(""), 10, inv);
         UtilItem.newItem(Data.upgradeStat, Material.EMERALD, 1, Arrays.asList(""), 12, inv);
-        UtilItem.newItem(Data.limitStat, Material.MUSIC_DISC_STAL, 1, Arrays.asList(""), 14, inv);
+        UtilItem.newItem(Data.limitStat, Material.CHORUS_PLANT, 1, Arrays.asList(""), 14, inv);
         UtilItem.newItem(Data.editGUI, Material.NAME_TAG, 1, Arrays.asList(""), 16, inv);
         player.openInventory(inv);
         Data.isAddStast.put(player.getUniqueId(), inv);
 
     }
 
-    public void statGUI() {
+    public void statGUI(StatData data) {
 
         ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
         Inventory inv = Bukkit.createInventory(null, 27, player.getDisplayName() + ChatColor.GOLD + " 님의 스탯");
 
         for (String keys : section.getKeys(false)) {
+            if (keys != null) {
+                String name = translate(keys);
+                int slot = getSlots(keys);
+                ItemStack item = getItems(keys);
 
+                if (item != null) {
 
-            String name = translate(keys);
-            player.sendMessage(name);
+                    ItemMeta meta = item.getItemMeta();
 
-            int slot = getSlots(keys);
-            ItemStack item = getItems(keys);
+                    meta.setDisplayName(name);
+                    meta.setLore(Arrays.asList("" + data.addModifier(StatType.valueOf(keys)).getStat()));
+                    item.setItemMeta(meta);
+                    inv.setItem(slot, item);
 
-            if (item != null) {
-                ItemMeta meta = item.getItemMeta();
-                meta.setDisplayName(name);
-                item.setItemMeta(meta);
-                inv.setItem(slot, item);
+                }
             }
         }
+
+        UtilItem.newItem(ChatColor.GREEN + "[ 남은 스탯 ]", Material.STICK, 1,
+                Arrays.asList(ChatColor.GOLD + "남은 스탯: " + ChatColor.RED + data.getStatPoint()), 18, inv);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.updateInventory();
+
+            }
+        }.runTaskLater(RPGStatSystem.plugin, 1);
+
         player.openInventory(inv);
+
+    }
+    public String getName() {
+        Objects.requireNonNull(config, "Config is null!");
+        Objects.requireNonNull(statType, "StatType is null!");
+
+        if (statType != null) {
+            String name = config.getString("stat." + statType.name() + ".name");
+
+            return name;
+        }
+        return null;
+    }
+    public boolean equalName(String name) {
+        if (translate(statType.name()) != null) {
+            return name.equalsIgnoreCase(translate(statType.name()));
+        }
+        return false;
+    }
+
+    public int getDefaultPoint() {
+        return config.getInteger("stat.point");
     }
 
     public Inventory statListGUI() {

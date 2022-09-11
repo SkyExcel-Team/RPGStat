@@ -1,3 +1,14 @@
 stat:
-  point: 1
+  point: 10
+ 
+messages:
+  Attack_Damage: '성공적으로 공격 스탯을 올렸습니다! 남은 스택: %stat%'
+  Range_Attack_Damage: '성공적으로 원거리 공격 스탯을 올렸습니다! 남은 스택: %stat%'
+  Critical_Damage: '성공적으로 치명타 스탯을 올렸습니다! 남은 스택: %stat%'
+  Defense: '성공적으로 스탯을 올렸습니다! 남은 스택: %stat%'
+  Farm: '성공적으로 스탯을 올렸습니다! 남은 스택: %stat%'
+  Fish: '성공적으로 스탯을 올렸습니다! 남은 스택: %stat%'
+  Mine: '성공적으로 스탯을 올렸습니다! 남은 스택: %stat%'
+  Speed: '성공적으로 스탯을 올렸습니다! 남은 스택: %stat%'
+  Fall: '성공적으로 스탯을 올렸습니다! 남은 스택: %stat%'
  

@@ -12,8 +12,11 @@ public class JoinEvent implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        StatData data = new StatData(player);
         StatConfigData config = new StatConfigData();
-        
+
+        StatData data = new StatData(player);
+
+        data.setStatPoint(config.getDefaultPoint());
+
     }
 }

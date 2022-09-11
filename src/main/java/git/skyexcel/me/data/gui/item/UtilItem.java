@@ -15,7 +15,5 @@ public class UtilItem {
         meta.setLore(lore);
         item.setItemMeta(meta);
         inv.setItem(slot,item);
-
     }
-
 }

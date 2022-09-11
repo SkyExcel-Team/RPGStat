@@ -13,8 +13,7 @@ public class LevelUpEvent implements Listener {
     @EventHandler
     public void onLevelUp(PlayerLevelChangeEvent event){
         Player player = event.getPlayer();
-        Stat stat = new StatData(player);
-
-        stat.addModifier(StatType.LevelUp).setStat(1);
+        StatData stat = new StatData(player);
+        stat.setStatPoint(1);
     }
 }

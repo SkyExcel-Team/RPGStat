@@ -5,10 +5,8 @@ import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.Stat;
 import git.skyexcel.me.data.stat.StatType;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.ChatColor;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,18 +50,22 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
                     case "아이템":
                         if (args.length > 1) {
                             if (args.length > 2) {
+                                try {
+                                    int slot = Integer.parseInt(args[1]);
 
-                                int slot = Integer.parseInt(args[1]);
-                                String type = args[2];
-                                stat = new StatConfigData();
-                                stat.setPlayer(player);
-                                stat.setItem(type, slot,type);
+                                    StatType type = StatType.valueOf(args[2]);
+                                    stat = new StatConfigData();
+                                    stat.setPlayer(player);
+                                    stat.setItem(type.name(), slot, type);
 
-                                StatData data = new StatData(player);
+                                    StatData data = new StatData(player);
 
-                                Data.name.put(player.getUniqueId(), type);
-                                player.sendMessage("test");
+                                    Data.name.put(player.getUniqueId(), type.name());
+                                    player.sendMessage("test");
 
+                                } catch (NumberFormatException e) {
+                                    player.sendMessage(ChatColor.RED + "> " + ChatColor.GRAY + "슬롯을 숫자로 입력해 주세요!");
+                                }
                             }
                         }
                         break;

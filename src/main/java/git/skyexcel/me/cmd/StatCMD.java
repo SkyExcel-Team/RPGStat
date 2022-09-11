@@ -16,7 +16,7 @@ public class StatCMD implements CommandExecutor {
             StatData data = new StatData(player);
             StatConfigData config = new StatConfigData();
             config.setPlayer(player);
-            config.statGUI();
+            config.statGUI(data);
         }
 
         return false;
