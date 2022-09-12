@@ -157,7 +157,7 @@ public class InventoryEvent implements Listener {
                         }
                         event.setCancelled(true);
                     }
-                    data.getConfig().saveConfig();
+
                 }
             }
         }
