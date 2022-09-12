@@ -1,5 +1,6 @@
 package git.skyexcel.me.event;
 
+import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
 import org.bukkit.ChatColor;
@@ -53,14 +54,12 @@ public class BlockBreak implements Listener {
         if (ores.contains(item)) { //광물을 캘 시
             int indexof = ores.indexOf(item);
             ItemStack dropped = this.item.get(indexof);
+            StatConfigData config = new StatConfigData();
 
-            double mine = stat.addModifier(StatType.MINE).getStat();
+            double mine = stat.addModifier(StatType.MINE).getStat() * config.addModifier(StatType.MINE).getUpgrade();
 
             Random select = new Random();
-
             int random = select.nextInt((100));
-
-            player.sendMessage(random + "");
 
             if (mine <= 50) {
                 if (random < mine) {

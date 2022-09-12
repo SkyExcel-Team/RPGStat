@@ -13,11 +13,34 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class DamageEvent implements Listener {
+    @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        Entity entity = event.getEntity();
+
+        double damage = event.getDamage();
+        EntityDamageEvent.DamageCause cause = event.getCause();
+
+
+        switch (cause) {
+            case FALL:
+                if (entity instanceof Player) {
+                    Player player = (Player) entity;
+                    StatData data = new StatData(player);
+                    double fall = data.addModifier(StatType.FALL).getStat();
+                    StatConfigData config = new StatConfigData();
+
+                    double result = damage * (1 / ((1 + (fall) * config.addModifier(StatType.FALL).getUpgrade()))); // 강화율과 방어력을 곱해 방어률에 적용시킨다.
+
+                    event.setDamage(result);
+                }
+                break;
+        }
+    }
+
     @EventHandler
     public void getDamage(EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
@@ -27,23 +50,6 @@ public class DamageEvent implements Listener {
         EntityDamageEvent.DamageCause cause = event.getCause();
         entity.sendMessage(cause.name());
         switch (cause) {
-
-            case FALL:
-                if (entity instanceof Player) {
-                    Player player = (Player) entity;
-
-
-                }
-                break;
-
-            case FIRE:
-
-                entity.sendMessage("test");
-                break;
-
-            case FIRE_TICK:
-                entity.sendMessage("test");
-                break;
             case ENTITY_ATTACK:
                 if (entity instanceof Player) {
 
@@ -56,6 +62,7 @@ public class DamageEvent implements Listener {
 
                         double attack_damage = player_data.addModifier(StatType.ATTACK_DAMAGE).getStat();
                         double ciritical_chance = player_data.addModifier(StatType.CRITICAL_DAMAGE).getStat();
+
                         StatConfigData config = new StatConfigData();
                         double upgrade = config.addModifier(StatType.DEFENSE).getUpgrade();
 
@@ -63,22 +70,20 @@ public class DamageEvent implements Listener {
 
                         double newdamage = damage * (1 / (1 + (defense * upgrade)));
                         event.setDamage(newdamage);
+
                         target.sendMessage("방어력 : " + defense + " 데미지 : " + damage + " 방어한 데미지 " + newdamage);
                         damager.sendMessage("test");
-                    } else {
+
+
+                    } else { // 데미지를 입은 사람이 플레이어고, 플레이어를 때린 대상이 몹일 경우
+
                         Player target = (Player) entity; //데미지를 입은 사람을 타겟으로 지정한다.
                         StatData target_data = new StatData(target);
                         StatConfigData config = new StatConfigData();
 
-
-                        double defense = target_data.addModifier(StatType.DEFENSE).getStat();
-
                         double newdamage = damage(config, target_data, damage);
 
                         event.setDamage(newdamage);
-                        target.sendMessage("방어력 : " + defense + " 데미지 : " + damage + "너가 입은 데미지 " + newdamage);
-                        target.sendMessage(target.getHealth() + "");
-
                     }
                 } else {
                     Player player = (Player) damager;
@@ -124,8 +129,6 @@ public class DamageEvent implements Listener {
                         Player player = (Player) arrow.getShooter();
                         StatData data = new StatData(player);
                         double player_range_damage = data.addModifier(StatType.RANGED_ATTACK_DAMAGE).getStat();
-
-
                     }
                 }
                 break;
@@ -137,7 +140,7 @@ public class DamageEvent implements Listener {
 
         double defense = data.addModifier(StatType.DEFENSE).getStat();
 
-        return damage * (1 / ((1 + (defense) * upgrade)));
+        return damage * (1 / ((1 + (defense) * upgrade))); // 강화율과 방어력을 곱해 방어률에 적용시킨다.
     }
 
     public double calculateDamageApplied(double damage, double points, double toughness, int resistance, int epf) {

@@ -31,19 +31,31 @@ public class StatGUI extends BukkitRunnable {
 
     @Override
     public void run() {
-
         StatData data = new StatData(player);
         ConfigurationSection section = data.getConfig().getConfig().getConfigurationSection("stat");
         for (String keys : section.getKeys(false)) {
             if (keys != null && !keys.equalsIgnoreCase("points")) {
                 String name = config.translate(keys);
                 int slot = config.getSlots(keys);
+
                 ItemStack item = config.getItems(keys);
 
-                if (item != null) {
-                    UtilItem.newItem(name, item.getType(), 1, Arrays.asList("" +
-                            data.addModifier(StatType.valueOf(keys)).getStat()), slot, inv);
+                int limit = (int) data.addModifier(StatType.valueOf(keys)).getLimit();
+
+                if (limit >= 0) {
+                    if (item != null) {
+                        UtilItem.newItem(name, item.getType(), 1, Arrays.asList(
+                                ChatColor.GOLD + "현재 스탯: " +
+                                        ChatColor.RED + (int) data.addModifier(StatType.valueOf(keys)).getStat() + "§6/" + ChatColor.RED + (int) data.addModifier(StatType.valueOf(keys)).getLimit()), slot, inv);
+                    }
+                } else{
+                    if (item != null) {
+                        UtilItem.newItem(name, item.getType(), 1, Arrays.asList(
+                                ChatColor.GOLD + "현재 스탯: " +
+                                        ChatColor.RED + (int) data.addModifier(StatType.valueOf(keys)).getStat() + "§6/" + ChatColor.RED + "infinite"), slot, inv);
+                    }
                 }
+
             }
         }
         UtilItem.newItem(ChatColor.GREEN + "[ 남은 스탯 ]", Material.STICK, 1,

@@ -98,9 +98,15 @@ public class StatConfigData implements Stat {
 
         config.setString("stat." + key + ".name", key.name());
         config.setInteger("stat." + key + ".slot", slot);
+        if (config.getConfig().get("stat." + key + ".upgrade") == null)
+            config.setDouble("stat." + key + ".upgrade", 1);
+        if (config.getConfig().get("stat." + key + ".limit") == null){
+            config.setDouble("stat." + key + ".limit", 0);
+        } else{
+            config.setDouble("stat." + key + ".limit", getLimitKey(key.name()));
+        }
 
-        config.setDouble("stat." + key + ".upgrade", 1);
-        config.setDouble("stat." + key + ".limit", 0);
+
         config.getConfig().set("stat." + key + ".item", player.getInventory().getItemInMainHand());
         config.saveConfig();
     }
@@ -111,24 +117,23 @@ public class StatConfigData implements Stat {
         Objects.requireNonNull(key, "key is null!");
         String result = config.getString("stat." + key + ".name");
         switch (key) {
-            case "Max_Health":
+            case "MAX_HEALTH":
                 return ChatColor.translateAlternateColorCodes('&', result);
-            case "Fall":
+            case "FALL":
                 return ChatColor.translateAlternateColorCodes('&', result);
-            case "Farm":
+            case "FARM":
                 return ChatColor.translateAlternateColorCodes('&', result);
-            case "Mine":
+            case "MINE":
                 return ChatColor.translateAlternateColorCodes('&', result);
-            case "Speed":
+            case "SPEED":
                 return ChatColor.translateAlternateColorCodes('&', result);
             case "ATTACK_DAMAGE":
                 return ChatColor.translateAlternateColorCodes('&', result);
-            case "Critical_Damage":
+            case "CRITICAL_DAMAGE":
                 return ChatColor.translateAlternateColorCodes('&', result);
-
-            case "Ranged_Attack_Damage":
+            case "RANGED_ATTACK_DAMAGE":
                 return ChatColor.translateAlternateColorCodes('&', result);
-            case "Defense":
+            case "DEFENSE":
                 return ChatColor.translateAlternateColorCodes('&', result);
         }
 
@@ -140,33 +145,33 @@ public class StatConfigData implements Stat {
         Objects.requireNonNull(key, "key is null!");
         ItemStack item;
         switch (key) {
-            case "Max_Health":
+            case "MAX_HEALTH":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
 
                 return item;
-            case "Fall":
+            case "FALL":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
-            case "Farm":
+            case "FARM":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
-            case "Mine":
+            case "MINE":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
-            case "Speed":
+            case "SPEED":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
             case "ATTACK_DAMAGE":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
-            case "Critical_Damage":
+            case "CRITICAL_DAMAGE":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
 
-            case "Ranged_Attack_Damage":
+            case "RANGED_ATTACK_DAMAGE":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
-            case "Defense":
+            case "DEFENSE":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
 
@@ -180,31 +185,31 @@ public class StatConfigData implements Stat {
         Objects.requireNonNull(key, "key is null!");
 
         switch (key) {
-            case "Max_Health":
+            case "MAX_HEALTH":
 
                 return config.getInteger("stat." + key + ".slot");
-            case "Fall":
+            case "FALL":
 
                 return config.getInteger("stat." + key + ".slot");
-            case "Farm":
+            case "FARM":
 
                 return config.getInteger("stat." + key + ".slot");
-            case "Mine":
+            case "MINE":
 
                 return config.getInteger("stat." + key + ".slot");
-            case "Speed":
+            case "SPEED":
 
                 return config.getInteger("stat." + key + ".slot");
             case "ATTACK_DAMAGE":
 
                 return config.getInteger("stat." + key + ".slot");
-            case "Critical_Damage":
+            case "CRITICAL_DAMAGE":
 
                 return config.getInteger("stat." + key + ".slot");
 
             case "Ranged_Attack_Damage":
                 return config.getInteger("stat." + key + ".slot");
-            case "Defense":
+            case "DEFENSE":
                 return config.getInteger("stat." + key + ".slot");
         }
         statType = null;
@@ -234,8 +239,9 @@ public class StatConfigData implements Stat {
         for (String keys : section.getKeys(false)) {
             if (!keys.equalsIgnoreCase("point")) {
                 int upgrade = config.getInteger("stat." + keys + ".upgrade");
-                player.sendMessage(ChatColor.GRAY + "    ➥ " +
-                        ChatColor.GOLD + " 스텟 {" + ChatColor.GRAY + keys + ChatColor.GOLD + "} 강화 {" + ChatColor.WHITE + upgrade + "§6} ");
+                int limit = config.getInteger("stat." + keys + ".limit");
+                player.sendMessage(
+                        ChatColor.GOLD + " 스텟 {" + ChatColor.GRAY + keys + ChatColor.GOLD + "} 강화 {" + ChatColor.WHITE + upgrade + "§6} 한도 : "  + limit);
             }
         }
     }
@@ -259,8 +265,19 @@ public class StatConfigData implements Stat {
         config.saveConfig();
     }
 
+    public void setLimit(double upgrade, StatType key) {
+
+        config.setDouble("stat." + key + ".limit", config.getDouble("stat." + key + ".limit") + upgrade);
+        config.saveConfig();
+    }
+
     public double getUpgradeKey(String key) {
         return config.getDouble("stat." + key + ".upgrade");
+    }
+
+
+    public double getLimitKey(String key) {
+        return config.getDouble("stat." + key + ".limit");
     }
 
     public double getUpgrade() {

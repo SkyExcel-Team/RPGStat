@@ -3,6 +3,7 @@ package git.skyexcel.me.data.gui;
 import git.skyexcel.me.RPGStatSystem;
 import git.skyexcel.me.data.Data;
 import git.skyexcel.me.data.gui.item.UtilItem;
+import git.skyexcel.me.runnable.LimitGUI;
 import git.skyexcel.me.runnable.StatGUI;
 import git.skyexcel.me.runnable.UpgradeGUI;
 import git.skyexcel.me.data.stat.StatConfigData;
@@ -16,12 +17,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import java.util.Arrays;
 
 public class GUI {
 
-    public static void listGUI(Player player) {
+    public static Inventory listGUI(Player player) {
         Inventory inv = Bukkit.createInventory(null, 27, "스텟 설정");
 
         UtilItem.newItem(Data.upgradeStat, Material.EMERALD, 1, Arrays.asList(""), 10, inv);
@@ -29,6 +29,7 @@ public class GUI {
         UtilItem.newItem(Data.editGUI, Material.NAME_TAG, 1, Arrays.asList(""), 16, inv);
         player.openInventory(inv);
         Data.isAddStast.put(player.getUniqueId(), inv);
+        return inv;
     }
 
 
@@ -47,7 +48,7 @@ public class GUI {
 
 
     public static void editGUI(StatConfigData config, StatData data, Player player) {
-        ConfigurationSection section = config.getConfig().getConfig().getConfigurationSection("stat");
+
         Inventory inv = Bukkit.createInventory(null, 27, Data.editGUI);
 
         String keys = ""; // GUI 열때 키를 가져옴.
@@ -76,7 +77,7 @@ public class GUI {
         player.openInventory(inv);
     }
 
-    public static void upgradeGUI(Player player) {
+    public static Inventory upgradeGUI(Player player) {
         Inventory inv = Bukkit.createInventory(null, 45, Data.upgradeStat);
 
 
@@ -95,17 +96,23 @@ public class GUI {
         UtilItem.newColoredItem(ChatColor.GRAY + "- 1", Material.STAINED_GLASS_PANE, 1, 14, Arrays.asList(""), 25, inv);
         UtilItem.newColoredItem(ChatColor.GRAY + "- 10", Material.STAINED_GLASS_PANE, 1, 14, Arrays.asList(""), 26, inv);
         player.openInventory(inv);
+
+        return inv;
     }
 
 
-    public static void LimitGUI(Player player) {
+    public static void limitGUI(Player player) {
         Inventory inv = Bukkit.createInventory(null, 45, Data.limitStat);
 
         UtilItem.newColoredItem(ChatColor.GRAY + "100", Material.STAINED_GLASS_PANE, 1, 11, Arrays.asList(""), 19, inv);
         UtilItem.newColoredItem(ChatColor.GRAY + "+10", Material.STAINED_GLASS_PANE, 1, 11, Arrays.asList(""), 20, inv);
         UtilItem.newColoredItem(ChatColor.GRAY + "1", Material.STAINED_GLASS_PANE, 1, 11, Arrays.asList(""), 21, inv);
 
-        UtilItem.newItem(ChatColor.GREEN + "[ 한도 ]", Material.RECORD_12, 1, Arrays.asList(""), 22, inv);
+        LimitGUI gui = new LimitGUI(inv, player);
+
+        gui.runTaskTimer(RPGStatSystem.plugin, 0, 10);
+
+        Data.statTask.put(player.getUniqueId(), gui);
 
         UtilItem.newColoredItem(ChatColor.GRAY + "- 1", Material.STAINED_GLASS_PANE, 1, 14, Arrays.asList(""), 23, inv);
         UtilItem.newColoredItem(ChatColor.GRAY + "- 10", Material.STAINED_GLASS_PANE, 1, 14, Arrays.asList(""), 24, inv);

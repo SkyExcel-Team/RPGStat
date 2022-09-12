@@ -24,6 +24,7 @@ public class Data {
     public final static String addStat = "§a스텟 추가";
     public final static String upgradeStat = "§b강화 여부";
     public final static String limitStat = "§7한도 조정";
+
     public final static String loreStat = "§f로어 설정";
     public final static String editStat = "§f스텟 로어 설정";
 

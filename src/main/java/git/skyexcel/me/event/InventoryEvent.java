@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class InventoryEvent implements Listener {
@@ -65,9 +66,8 @@ public class InventoryEvent implements Listener {
                                 GUI.upgradeGUI(player);
                                 break;
                             case Data.limitStat:
-                                GUI.LimitGUI(player);
+                                GUI.limitGUI(player);
                                 break;
-
                         }
                         event.setCancelled(true);
                     } else if (event.getView().getTitle().equalsIgnoreCase(Data.upgradeStat)) {
@@ -113,6 +113,42 @@ public class InventoryEvent implements Listener {
 
                         event.setCancelled(true);
                     } else if (event.getView().getTitle().equalsIgnoreCase(Data.limitStat)) {
+                        switch (event.getSlot()) {
+
+                            case 21: // + 100
+                                config.setLimit(1, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
+                                break;
+
+                            case 20: // +  10
+                                config.setLimit(10, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
+                                break;
+
+                            case 19: // + 1
+                                config.setLimit(100, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
+                                break;
+
+                            case 23: // - 100
+                                config.setLimit(-1, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
+                                break;
+                            case 24: // - 10
+                                config.setLimit(-10, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
+                                break;
+
+                            case 25: // - 1
+                                config.setLimit(-100, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
+                                break;
+
+
+                        }
+
+                        event.setCancelled(true);
+                    } else if (event.getView().getTitle().equalsIgnoreCase(Data.limitStat)) {
 
                         event.setCancelled(true);
                     } else if (event.getView().getTitle().equalsIgnoreCase(Data.editGUI)) {
@@ -134,28 +170,64 @@ public class InventoryEvent implements Listener {
         String display = player.getDisplayName() + ChatColor.GOLD + " 님의 스탯";
 
 
-        if (event.getView().getTitle().equalsIgnoreCase(Data.addStat)) {
-            if (Data.isAddStast.containsKey(player.getUniqueId())) {
-                Bukkit.getScheduler().runTask(RPGStatSystem.plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        player.openInventory(Data.isAddStast.get(player.getUniqueId()));
-                    }
-                });
-
-            }
-        } else if (event.getView().getTitle().equalsIgnoreCase(display)) {
-
-            Data.statTask.get(player.getUniqueId()).cancel();
-            Data.statTask.remove(player.getUniqueId());
+//        if (event.getView().getTitle().equalsIgnoreCase(Data.addStat)) {
+//            if (Data.isAddStast.containsKey(player.getUniqueId())) {
+//                Bukkit.getScheduler().runTask(RPGStatSystem.plugin, new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        player.openInventory(Data.isAddStast.get(player.getUniqueId()));
+//                    }
+//                });
+//
+//            }
+        if (event.getView().getTitle().equalsIgnoreCase(display)) {
+            cancel(player);
 
         } else if (event.getView().getTitle().equalsIgnoreCase(Data.upgradeStat)) {
             Bukkit.getScheduler().runTask(RPGStatSystem.plugin, new Runnable() {
                 @Override
                 public void run() {
-                     GUI.listGUI(player);
+                    GUI.listGUI(player);
                 }
             });
+            Data.statTask.get(player.getUniqueId()).cancel();
+            Data.statTask.remove(player.getUniqueId());
+        } else if (event.getView().getTitle().equalsIgnoreCase(Data.limitStat)) {
+            Bukkit.getScheduler().runTask(RPGStatSystem.plugin, new Runnable() {
+                @Override
+                public void run() {
+                    GUI.listGUI(player);
+                }
+            });
+            Data.statTask.get(player.getUniqueId()).cancel();
+            Data.statTask.remove(player.getUniqueId());
+        }
+
+
+    }
+
+
+    public boolean open(InventoryCloseEvent event, String data, Inventory inv) {
+        Player player = (Player) event.getPlayer();
+        if (event.getView().getTitle().equalsIgnoreCase(data)) {
+
+            Bukkit.getScheduler().runTask(RPGStatSystem.plugin, new Runnable() {
+                @Override
+                public void run() {
+
+                    if (inv != null)
+                        player.openInventory(inv);
+                }
+            });
+            cancel(player);
+            return true;
+        }
+        return false;
+    }
+
+    public void cancel(Player player) {
+        if (Data.statTask.containsKey(player.getUniqueId())) {
+
             Data.statTask.get(player.getUniqueId()).cancel();
             Data.statTask.remove(player.getUniqueId());
         }
