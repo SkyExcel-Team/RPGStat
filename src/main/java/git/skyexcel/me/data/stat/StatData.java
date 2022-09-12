@@ -1,9 +1,8 @@
 package git.skyexcel.me.data.stat;
 
 
-import git.skyexcel.me.main.RPGStatSystem;
+import git.skyexcel.me.RPGStatSystem;
 import git.skyexcel.me.data.Config;
-import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
@@ -32,44 +31,44 @@ public class StatData implements Stat {
         Objects.requireNonNull(statType, "StatType is null!");
         if (decreasePoint(1)) {
             switch (statType) {
-                case Max_Health:
+                case MAX_HEALTH:
                     setValue("stat." + statType.name(), value);
                     player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getMaxHealth() + value);
                     player.sendMessage("성공적으로 체력 스텟을 쌓았습니다! 남은 스텟 포인트 : " + getStatPoint());
                     break;
-                case Fall:
+                case FALL:
                     setValue("stat." + statType.name(), value);
                     break;
-                case Farm:
+                case FARM:
                     setValue("stat." + statType.name(), value);
                     break;
-                case Defense:
+                case DEFENSE:
                     setValue("stat." + statType.name(), value);
                     player.sendMessage("성공적으로 방어 스텟을 쌓았습니다! 남은 스텟 포인트 : " + getStatPoint());
 
                     break;
 
-                case Fish:
+                case FISH:
                     setValue("stat." + statType.name(), value);
                     break;
-                case Mine:
+                case MINE:
                     setValue("stat." + statType.name(), value);
                     break;
-                case Speed:
+                case SPEED:
                     setValue("stat." + statType.name(), value);
                     break;
-                case Attack_Damage:
+                case ATTACK_DAMAGE:
                     setValue("stat." + statType.name(), value);
                     player.sendMessage("성공적으로 공격력 스텟을 쌓았습니다! 남은 스텟 포인트 : " + getStatPoint());
                     break;
-                case Critical_Damage:
+                case CRITICAL_DAMAGE:
                     setValue("stat." + statType.name(), value);
                     break;
-                case Ranged_Attack_Damage:
+                case RANGED_ATTACK_DAMAGE:
 
                     setValue("stat.", value);
                     break;
-                case LevelUp:
+                case LEVELUP:
 
                     setValue("stat.", value);
                     break;
@@ -92,6 +91,12 @@ public class StatData implements Stat {
         config.setInteger(path, value);
     }
 
+    public void setDefaultStatPoint(int value) {
+        String path = "stat.points";
+        if (config.getConfig().get(path) == null)
+            config.setInteger(path, value);
+    }
+
     public boolean decreasePoint(int value) {
         String path = "stat.points";
         if (config.getInteger(path) - value >= 0) {
@@ -112,27 +117,27 @@ public class StatData implements Stat {
         Objects.requireNonNull(statType, "StatType is null!");
 
         switch (statType) {
-            case Max_Health:
+            case MAX_HEALTH:
                 return config.getDouble("stat." + statType.name());
-            case Fall:
+            case FALL:
                 return config.getDouble("stat." + statType.name());
-            case Farm:
+            case FARM:
                 return config.getDouble("stat." + statType.name());
-            case Mine:
+            case MINE:
                 return config.getDouble("stat." + statType.name());
-            case Speed:
+            case SPEED:
                 return config.getDouble("stat." + statType.name());
-            case Attack_Damage:
+            case ATTACK_DAMAGE:
                 return config.getDouble("stat." + statType.name());
-            case Critical_Damage:
+            case CRITICAL_DAMAGE:
                 return config.getDouble("stat." + statType.name());
-            case Defense:
+            case DEFENSE:
                 return config.getDouble("stat." + statType.name());
-            case Fish:
+            case FISH:
                 return config.getDouble("stat." + statType.name());
-            case LevelUp:
+            case LEVELUP:
                 return config.getDouble("stat." + statType.name());
-            case Ranged_Attack_Damage:
+            case RANGED_ATTACK_DAMAGE:
                 return config.getDouble("stat.ranged_damage");
         }
         return -1;

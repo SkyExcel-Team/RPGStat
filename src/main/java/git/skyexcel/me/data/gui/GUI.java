@@ -1,11 +1,13 @@
 package git.skyexcel.me.data.gui;
 
+import git.skyexcel.me.RPGStatSystem;
 import git.skyexcel.me.data.Data;
 import git.skyexcel.me.data.gui.item.UtilItem;
+import git.skyexcel.me.runnable.StatGUI;
+import git.skyexcel.me.runnable.UpgradeGUI;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
-import git.skyexcel.me.main.RPGStatSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 
@@ -22,7 +23,6 @@ public class GUI {
 
     public static void listGUI(Player player) {
         Inventory inv = Bukkit.createInventory(null, 27, "스텟 설정");
-
 
         UtilItem.newItem(Data.upgradeStat, Material.EMERALD, 1, Arrays.asList(""), 10, inv);
         UtilItem.newItem(Data.limitStat, Material.RECORD_12, 1, Arrays.asList(""), 13, inv);
@@ -32,35 +32,17 @@ public class GUI {
     }
 
 
-    public static void statGUI(StatConfigData config, StatData data, Player player) {
-        ConfigurationSection section = data.getConfig().getConfig().getConfigurationSection("stat");
-        Inventory inv = Bukkit.createInventory(null, 27, player.getDisplayName() + ChatColor.GOLD + " 님의 스탯");
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGStatSystem.plugin, new Runnable() {
-            @Override
-            public void run() {
-                for (String keys : section.getKeys(false)) {
-                    if (keys != null) {
+    public static void statGUI(Player player) {
 
-                        String name = config.translate(keys);
-                        int slot = config.getSlots(keys);
-                        ItemStack item = config.getItems(keys);
-                        if (item != null) {
-                            UtilItem.newItem(name, item.getType(), 1, Arrays.asList("" +
-                                    data.addModifier(StatType.valueOf(keys)).getStat()), slot, inv);
+        Inventory inv = Bukkit.createInventory(null, 45, player.getDisplayName() + ChatColor.GOLD + " 님의 스탯");
 
+        StatGUI gui = new StatGUI(inv, player);
 
-                        }
+        gui.runTaskTimer(RPGStatSystem.plugin, 0, 0);
 
-                    }
-                }
-            }
-        }, 0, 0);
-
-        UtilItem.newItem(ChatColor.GREEN + "[ 남은 스탯 ]", Material.STICK, 1,
-                Arrays.asList(ChatColor.GOLD + "남은 스탯: " + ChatColor.RED + data.getStatPoint()), 18, inv);
+        Data.statTask.put(player.getUniqueId(), gui);
 
         player.openInventory(inv);
-
     }
 
 
@@ -85,29 +67,24 @@ public class GUI {
                 inv.setItem(slot, item);
 
             }
-
         }
 
         UtilItem.newItem(ChatColor.GREEN + "[ 남은 스탯 ]", Material.STICK, 1,
                 Arrays.asList(ChatColor.GOLD + "남은 스탯: " + ChatColor.RED + data.getStatPoint()), 18, inv);
 
 
-
         player.openInventory(inv);
-
     }
 
-    public static void UpgradeGUI(Player player) {
-        StatConfigData config = new StatConfigData();
+    public static void upgradeGUI(Player player) {
         Inventory inv = Bukkit.createInventory(null, 45, Data.upgradeStat);
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(RPGStatSystem.plugin, new Runnable() {
-            @Override
-            public void run() {
-                UtilItem.newItem(ChatColor.GREEN + "[ 강화 여부 ]", Material.EMERALD, 1,
-                        Arrays.asList("" + config.getUpgradeKey(Data.type.get(player.getUniqueId()).name())), 22, inv);
-            }
-        }, 0, 0);
+
+        UpgradeGUI gui = new UpgradeGUI(inv, player);
+
+        gui.runTaskTimer(RPGStatSystem.plugin, 0, 10);
+
+        Data.statTask.put(player.getUniqueId(), gui);
 
         UtilItem.newColoredItem(ChatColor.GRAY + "+ 0.01", Material.STAINED_GLASS_PANE, 1, 11, Arrays.asList(""), 18, inv);
         UtilItem.newColoredItem(ChatColor.GRAY + "+ 0.1", Material.STAINED_GLASS_PANE, 1, 11, Arrays.asList(""), 19, inv);
@@ -122,9 +99,7 @@ public class GUI {
 
 
     public static void LimitGUI(Player player) {
-        StatConfigData config = new StatConfigData();
         Inventory inv = Bukkit.createInventory(null, 45, Data.limitStat);
-
 
         UtilItem.newColoredItem(ChatColor.GRAY + "100", Material.STAINED_GLASS_PANE, 1, 11, Arrays.asList(""), 19, inv);
         UtilItem.newColoredItem(ChatColor.GRAY + "+10", Material.STAINED_GLASS_PANE, 1, 11, Arrays.asList(""), 20, inv);

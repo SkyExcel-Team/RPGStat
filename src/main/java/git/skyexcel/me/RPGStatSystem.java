@@ -1,4 +1,4 @@
-package git.skyexcel.me.main;
+package git.skyexcel.me;
 
 
 import git.skyexcel.me.cmd.StatCMD;

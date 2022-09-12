@@ -1,7 +1,7 @@
 package git.skyexcel.me.data.stat;
 
 import de.tr7zw.nbtapi.NBTItem;
-import git.skyexcel.me.main.RPGStatSystem;
+import git.skyexcel.me.RPGStatSystem;
 import git.skyexcel.me.data.Config;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -42,40 +42,40 @@ public class StatConfigData implements Stat {
         Objects.requireNonNull(statType, "StatType is null!");
 
         switch (statType) {
-            case Max_Health:
+            case MAX_HEALTH:
                 setValue("stat." + statType.name(), value);
                 break;
-            case Fall:
+            case FALL:
                 setValue("stat." + statType.name(), value);
                 break;
-            case Farm:
+            case FARM:
                 setValue("stat." + statType.name(), value);
                 break;
-            case Mine:
+            case MINE:
                 setValue("stat." + statType.name(), value);
                 break;
-            case Fish:
-                setValue("stat." + statType.name(), value);
-                break;
-
-            case Defense:
+            case FISH:
                 setValue("stat." + statType.name(), value);
                 break;
 
-            case Speed:
+            case DEFENSE:
                 setValue("stat." + statType.name(), value);
                 break;
-            case Attack_Damage:
+
+            case SPEED:
                 setValue("stat." + statType.name(), value);
                 break;
-            case Critical_Damage:
+            case ATTACK_DAMAGE:
                 setValue("stat." + statType.name(), value);
                 break;
-            case Ranged_Attack_Damage:
+            case CRITICAL_DAMAGE:
+                setValue("stat." + statType.name(), value);
+                break;
+            case RANGED_ATTACK_DAMAGE:
 
                 setValue("stat.", value);
                 break;
-            case LevelUp:
+            case LEVELUP:
 
                 setValue("stat.", value);
                 break;
@@ -121,7 +121,7 @@ public class StatConfigData implements Stat {
                 return ChatColor.translateAlternateColorCodes('&', result);
             case "Speed":
                 return ChatColor.translateAlternateColorCodes('&', result);
-            case "Attack_Damage":
+            case "ATTACK_DAMAGE":
                 return ChatColor.translateAlternateColorCodes('&', result);
             case "Critical_Damage":
                 return ChatColor.translateAlternateColorCodes('&', result);
@@ -156,7 +156,7 @@ public class StatConfigData implements Stat {
             case "Speed":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
-            case "Attack_Damage":
+            case "ATTACK_DAMAGE":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
             case "Critical_Damage":
@@ -195,7 +195,7 @@ public class StatConfigData implements Stat {
             case "Speed":
 
                 return config.getInteger("stat." + key + ".slot");
-            case "Attack_Damage":
+            case "ATTACK_DAMAGE":
 
                 return config.getInteger("stat." + key + ".slot");
             case "Critical_Damage":
@@ -263,8 +263,8 @@ public class StatConfigData implements Stat {
         return config.getDouble("stat." + key + ".upgrade");
     }
 
-    public int getUpgrade() {
-        return config.getInteger("stat." + statType.name() + ".upgrade");
+    public double getUpgrade() {
+        return config.getDouble("stat." + statType.name() + ".upgrade");
     }
 
     public Config getConfig() {

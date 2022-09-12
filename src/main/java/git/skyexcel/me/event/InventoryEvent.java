@@ -1,11 +1,11 @@
 package git.skyexcel.me.event;
 
+import git.skyexcel.me.RPGStatSystem;
 import git.skyexcel.me.data.Data;
 import git.skyexcel.me.data.gui.GUI;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
-import git.skyexcel.me.main.RPGStatSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -32,37 +32,37 @@ public class InventoryEvent implements Listener {
                     String display = player.getDisplayName() + ChatColor.GOLD + " 님의 스탯";
 
                     if (event.getView().getTitle().equalsIgnoreCase(display)) { //스텟 증가
-                        if (config.addModifier(StatType.Attack_Damage).equals(name)) { //어택  아이템을 클릭 했을 경우
-                            data.addModifier(StatType.Attack_Damage).setStat(1); // 어택 스탯을 1 올린다.
-                        } else if (config.addModifier(StatType.Defense).equals(name)) {
-                            data.addModifier(StatType.Defense).setStat(1);
-                        } else if (config.addModifier(StatType.Max_Health).equals(name)) {
-                            data.addModifier(StatType.Max_Health).setStat(1);
-                        } else if (config.addModifier(StatType.Ranged_Attack_Damage).equals(name)) {
-                            data.addModifier(StatType.Ranged_Attack_Damage).setStat(1);
-                        } else if (config.addModifier(StatType.Mine).equals(name)) {
-                            data.addModifier(StatType.Mine).setStat(1);
-                        } else if (config.addModifier(StatType.Farm).equals(name)) {
-                            data.addModifier(StatType.Farm).setStat(1);
-                        } else if (config.addModifier(StatType.Fish).equals(name)) {
-                            data.addModifier(StatType.Fish).setStat(1);
-                        } else if (config.addModifier(StatType.Speed).equals(name)) {
-                            data.addModifier(StatType.Speed).setStat(1);
-                        } else if (config.addModifier(StatType.Critical_Damage).equals(name)) {
-                            data.addModifier(StatType.Critical_Damage).setStat(1);
-                        } else if (config.addModifier(StatType.Fall).equals(name)) {
-                            data.addModifier(StatType.Fall).setStat(1);
+                        if (config.addModifier(StatType.ATTACK_DAMAGE).equals(name)) { //어택  아이템을 클릭 했을 경우
+                            data.addModifier(StatType.ATTACK_DAMAGE).setStat(1); // 어택 스탯을 1 올린다.
+                        } else if (config.addModifier(StatType.DEFENSE).equals(name)) {
+                            data.addModifier(StatType.DEFENSE).setStat(1);
+                        } else if (config.addModifier(StatType.MAX_HEALTH).equals(name)) {
+                            data.addModifier(StatType.MAX_HEALTH).setStat(1);
+                        } else if (config.addModifier(StatType.RANGED_ATTACK_DAMAGE).equals(name)) {
+                            data.addModifier(StatType.RANGED_ATTACK_DAMAGE).setStat(1);
+                        } else if (config.addModifier(StatType.MINE).equals(name)) {
+                            data.addModifier(StatType.MINE).setStat(1);
+                        } else if (config.addModifier(StatType.FARM).equals(name)) {
+                            data.addModifier(StatType.FARM).setStat(1);
+                        } else if (config.addModifier(StatType.FISH).equals(name)) {
+                            data.addModifier(StatType.FISH).setStat(1);
+                        } else if (config.addModifier(StatType.SPEED).equals(name)) {
+                            data.addModifier(StatType.SPEED).setStat(1);
+                        } else if (config.addModifier(StatType.CRITICAL_DAMAGE).equals(name)) {
+                            data.addModifier(StatType.CRITICAL_DAMAGE).setStat(1);
+                        } else if (config.addModifier(StatType.FALL).equals(name)) {
+                            data.addModifier(StatType.FALL).setStat(1);
                         }
 
                         event.setCancelled(true);
-                        
+
                     } else if (event.getView().getTitle().equalsIgnoreCase("스텟 설정")) {
                         if (name.equalsIgnoreCase("§fGUI 설정")) {
                             GUI.editGUI(config, data, player);
                         }
                         switch (name) {
                             case Data.upgradeStat:
-                                GUI.UpgradeGUI(player);
+                                GUI.upgradeGUI(player);
                                 break;
                             case Data.limitStat:
                                 GUI.LimitGUI(player);
@@ -73,41 +73,41 @@ public class InventoryEvent implements Listener {
                     } else if (event.getView().getTitle().equalsIgnoreCase(Data.upgradeStat)) {
                         switch (event.getSlot()) {
                             case 18: // + 0.01
-                                config.setUpgrade(0.01,Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING,1,1);
+                                config.setUpgrade(0.01, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
                             case 19: // + 0.1
-                                config.setUpgrade(0.1,Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING,1,1);
+                                config.setUpgrade(0.1, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 20: // + 1
-                                config.setUpgrade(1,Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING,1,1);
+                                config.setUpgrade(1, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 21: // + 10
-                                config.setUpgrade(10,Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING,1,1);
+                                config.setUpgrade(10, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 23: // - 0.01
-                                config.setUpgrade(-0.01,Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING,1,1);
+                                config.setUpgrade(-0.01, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
                             case 24: // - 0.1
-                                config.setUpgrade(-0.1,Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING,1,1);
+                                config.setUpgrade(-0.1, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 25: // - 1
-                                config.setUpgrade(-1,Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING,1,1);
+                                config.setUpgrade(-1, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 26: // - 10
-                                config.setUpgrade(-10,Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING,1,1);
+                                config.setUpgrade(-10, Data.type.get(player.getUniqueId()));
+                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
                         }
 
@@ -121,6 +121,7 @@ public class InventoryEvent implements Listener {
                         }
                         event.setCancelled(true);
                     }
+                    data.getConfig().saveConfig();
                 }
             }
         }
@@ -129,6 +130,10 @@ public class InventoryEvent implements Listener {
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
+
+        String display = player.getDisplayName() + ChatColor.GOLD + " 님의 스탯";
+
+
         if (event.getView().getTitle().equalsIgnoreCase(Data.addStat)) {
             if (Data.isAddStast.containsKey(player.getUniqueId())) {
                 Bukkit.getScheduler().runTask(RPGStatSystem.plugin, new Runnable() {
@@ -139,6 +144,20 @@ public class InventoryEvent implements Listener {
                 });
 
             }
+        } else if (event.getView().getTitle().equalsIgnoreCase(display)) {
+
+            Data.statTask.get(player.getUniqueId()).cancel();
+            Data.statTask.remove(player.getUniqueId());
+
+        } else if (event.getView().getTitle().equalsIgnoreCase(Data.upgradeStat)) {
+            Bukkit.getScheduler().runTask(RPGStatSystem.plugin, new Runnable() {
+                @Override
+                public void run() {
+                     GUI.listGUI(player);
+                }
+            });
+            Data.statTask.get(player.getUniqueId()).cancel();
+            Data.statTask.remove(player.getUniqueId());
         }
     }
 }

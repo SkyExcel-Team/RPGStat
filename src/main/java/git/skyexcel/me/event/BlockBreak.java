@@ -54,7 +54,7 @@ public class BlockBreak implements Listener {
             int indexof = ores.indexOf(item);
             ItemStack dropped = this.item.get(indexof);
 
-            double mine = stat.addModifier(StatType.Mine).getStat();
+            double mine = stat.addModifier(StatType.MINE).getStat();
 
             Random select = new Random();
 

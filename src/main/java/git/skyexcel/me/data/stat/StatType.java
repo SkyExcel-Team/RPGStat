@@ -1,16 +1,21 @@
 package git.skyexcel.me.data.stat;
 
 public enum StatType {
-    Max_Health,
-    Attack_Damage, Critical_Damage,Ranged_Attack_Damage,
+    MAX_HEALTH,
 
-    Defense,
-    Farm,
-    Mine,
-    Fish,
-    Fall,
-    Speed,
-    LevelUp;
+    ATTACK_DAMAGE,
+
+    CRITICAL_DAMAGE,
+
+    RANGED_ATTACK_DAMAGE,
+
+    DEFENSE,
+    FARM,
+    MINE,
+    FISH,
+    FALL,
+    SPEED,
+    LEVELUP;
 
 
 }

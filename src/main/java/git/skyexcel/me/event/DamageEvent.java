@@ -1,7 +1,9 @@
 package git.skyexcel.me.event;
 
+import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
+import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -23,6 +25,7 @@ public class DamageEvent implements Listener {
         double damage = event.getDamage();
 
         EntityDamageEvent.DamageCause cause = event.getCause();
+        entity.sendMessage(cause.name());
         switch (cause) {
 
             case FALL:
@@ -31,6 +34,15 @@ public class DamageEvent implements Listener {
 
 
                 }
+                break;
+
+            case FIRE:
+
+                entity.sendMessage("test");
+                break;
+
+            case FIRE_TICK:
+                entity.sendMessage("test");
                 break;
             case ENTITY_ATTACK:
                 if (entity instanceof Player) {
@@ -42,38 +54,43 @@ public class DamageEvent implements Listener {
                         StatData player_data = new StatData(player);
                         StatData target_data = new StatData(target);
 
-                        double attack_damage = player_data.addModifier(StatType.Attack_Damage).getStat();
-                        double ciritical_chance = player_data.addModifier(StatType.Critical_Damage).getStat();
+                        double attack_damage = player_data.addModifier(StatType.ATTACK_DAMAGE).getStat();
+                        double ciritical_chance = player_data.addModifier(StatType.CRITICAL_DAMAGE).getStat();
+                        StatConfigData config = new StatConfigData();
+                        double upgrade = config.addModifier(StatType.DEFENSE).getUpgrade();
 
-                        double defense = target_data.addModifier(StatType.Defense).getStat();
+                        double defense = target_data.addModifier(StatType.DEFENSE).getStat();
 
-                        double newdamage = damage * (1 / (1 + (defense)));
+                        double newdamage = damage * (1 / (1 + (defense * upgrade)));
                         event.setDamage(newdamage);
                         target.sendMessage("방어력 : " + defense + " 데미지 : " + damage + " 방어한 데미지 " + newdamage);
                         damager.sendMessage("test");
                     } else {
                         Player target = (Player) entity; //데미지를 입은 사람을 타겟으로 지정한다.
                         StatData target_data = new StatData(target);
+                        StatConfigData config = new StatConfigData();
 
-                        double defense = target_data.addModifier(StatType.Defense).getStat();
 
-                        double result = defense / (1 + defense);
+                        double defense = target_data.addModifier(StatType.DEFENSE).getStat();
 
-                        double newdamage = damage * (1 / (1 + (defense)));
+                        double newdamage = damage(config, target_data, damage);
+
                         event.setDamage(newdamage);
-                        target.sendMessage("방어력 : " + defense + " 데미지 : " + damage + " 방어한 데미지 " + newdamage);
+                        target.sendMessage("방어력 : " + defense + " 데미지 : " + damage + "너가 입은 데미지 " + newdamage);
+                        target.sendMessage(target.getHealth() + "");
 
                     }
                 } else {
                     Player player = (Player) damager;
                     StatData data = new StatData(player);
-                    double attackDamage = data.addModifier(StatType.Attack_Damage).getStat();
+
+                    double attackDamage = data.addModifier(StatType.ATTACK_DAMAGE).getStat();
+
                     event.setDamage(attackDamage + event.getDamage());
-                    double newdamage = damage *= 1.5F;
-                    player.sendMessage("test");
+                    double critical = attackDamage *= 2F;
 
 
-
+                    player.sendMessage(ChatColor.GOLD + "Critical!" + critical);
                 }
 
                 if (event.getDamager() instanceof ThrownPotion) {//Potion 데미지를 입을때
@@ -85,7 +102,7 @@ public class DamageEvent implements Listener {
                         Player player = (Player) event.getEntity();
                         StatData data = new StatData(player);
 
-                        double player_damage = data.addModifier(StatType.Attack_Damage).getStat();
+                        double player_damage = data.addModifier(StatType.ATTACK_DAMAGE).getStat();
                         double armorPoints = target.getAttribute(Attribute.GENERIC_ARMOR).getValue();
                         double armorToughness = target.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).getValue();
 
@@ -106,7 +123,7 @@ public class DamageEvent implements Listener {
                     if (arrow.getShooter() instanceof Player) { //플레이어가 화살로 공격을 했을 때
                         Player player = (Player) arrow.getShooter();
                         StatData data = new StatData(player);
-                        double player_range_damage = data.addModifier(StatType.Ranged_Attack_Damage).getStat();
+                        double player_range_damage = data.addModifier(StatType.RANGED_ATTACK_DAMAGE).getStat();
 
 
                     }
@@ -115,9 +132,12 @@ public class DamageEvent implements Listener {
         }
     }
 
-    public void damage(double damage) {
+    public double damage(StatConfigData config, StatData data, double damage) {
+        double upgrade = config.addModifier(StatType.DEFENSE).getUpgrade();
 
+        double defense = data.addModifier(StatType.DEFENSE).getStat();
 
+        return damage * (1 / ((1 + (defense) * upgrade)));
     }
 
     public double calculateDamageApplied(double damage, double points, double toughness, int resistance, int epf) {
@@ -137,11 +157,5 @@ public class DamageEvent implements Listener {
                 (chest != null ? chest.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0) +
                 (legs != null ? legs.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0) +
                 (boot != null ? boot.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0);
-    }
-
-    public void defense(Player player, double damage) {
-        StatData target_data = new StatData(player);
-        double defense = target_data.addModifier(StatType.Defense).getStat();
-
     }
 }

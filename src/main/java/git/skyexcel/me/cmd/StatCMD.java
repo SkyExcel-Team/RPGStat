@@ -14,11 +14,7 @@ public class StatCMD implements CommandExecutor {
 
         if(sender instanceof Player){
             Player player = (Player) sender;
-            StatData data = new StatData(player);
-            StatConfigData config = new StatConfigData();
-            config.setPlayer(player);
-
-            GUI.statGUI(config,data,player);
+            GUI.statGUI(player);
         }
         return false;
     }
