@@ -14,13 +14,12 @@ public class Random {
         java.util.Random select = new java.util.Random();
         int random = select.nextInt((100));
 
-        if (mine <= 50) { // 59
+        if (mine <= 50) { // 49
             if (random < mine) {
-                player.sendMessage("2");
                 return 2;
             }
         } else {
-            if (random < mine) { // 60
+            if (random < mine) { // 51
                 return 3;
             }
         }

@@ -46,7 +46,15 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
                             }
                             break;
                         case "이름수정":
+                            if (args.length > 1) {
+                                StatType type = StatType.valueOf(args[1]);
+                                name = args[2];
+                                stat = new StatConfigData();
+                                stat.setPlayer(player);
+                                stat.setName(name,type.name());
 
+
+                            }
                             break;
 
                         case "아이템":
@@ -63,7 +71,7 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
                                         StatData data = new StatData(player);
 
                                         Data.name.put(player.getUniqueId(), type.name());
-                                        player.sendMessage("test");
+
 
                                     } catch (NumberFormatException e) {
                                         player.sendMessage(ChatColor.RED + "> " + ChatColor.GRAY + "슬롯을 숫자로 입력해 주세요!");
@@ -81,13 +89,13 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
 
                     }
                 } else {
-                   player.sendMessage(
-                           "/스텟설정 편집 <스텟종류> : 해당 스텟 설정 GUI창\n" +
-                           "/스텟설정 이름수정 <스텟이름> <수정할이름> : 기존의 스텟의 이름을 바꿀때 사용\n" +
-                           "/스텟설정 아이템 <슬롯위치> <스텟이름> : 기존의 스텟의 아이템 슬롯 바꿀때 사용\n" +
-                           "스텟설정으로 연 GUI 창에서 아이템을 클릭후 \n" +
-                           "채팅에 로어 줄과 로어를 입력하면 다시 GUI창이 열리면서 적용됨.\n" +
-                           "/스텟설정 리스트 : 현재 만들어진 스텟들을 확인하는 명령어");
+                    player.sendMessage(
+                            "/스텟설정 편집 <스텟종류> : 해당 스텟 설정 GUI창\n" +
+                                    "/스텟설정 이름수정 <스텟이름> <수정할이름> : 기존의 스텟의 이름을 바꿀때 사용\n" +
+                                    "/스텟설정 아이템 <슬롯위치> <스텟이름> : 기존의 스텟의 아이템 슬롯 바꿀때 사용\n" +
+                                    "스텟설정으로 연 GUI 창에서 아이템을 클릭후 \n" +
+                                    "채팅에 로어 줄과 로어를 입력하면 다시 GUI창이 열리면서 적용됨.\n" +
+                                    "/스텟설정 리스트 : 현재 만들어진 스텟들을 확인하는 명령어");
 
                 }
             }
@@ -125,7 +133,7 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
 
 
                     for (String keys : section.getKeys(false)) {
-                        if(!keys.equalsIgnoreCase("point")){
+                        if (!keys.equalsIgnoreCase("point")) {
                             result.add(keys);
                         }
                     }

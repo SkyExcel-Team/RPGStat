@@ -1,5 +1,6 @@
 package git.skyexcel.me.runnable;
 
+import git.skyexcel.me.data.Data;
 import git.skyexcel.me.data.gui.item.UtilItem;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class StatGUI extends BukkitRunnable {
 
@@ -43,17 +45,28 @@ public class StatGUI extends BukkitRunnable {
                 int limit = (int) data.addModifier(StatType.valueOf(keys)).getLimit();
 
                 if (limit >= 0) {
+
                     if (item != null) {
-                        UtilItem.newItem(name, item.getType(), 1, Arrays.asList(
-                                ChatColor.GOLD + "현재 스탯: " +
-                                        ChatColor.RED + (int) data.addModifier(StatType.valueOf(keys)).getStat() + "§6/" + ChatColor.RED + (int) data.addModifier(StatType.valueOf(keys)).getLimit()), slot, inv);
+
+
+                        List<String> lore = item.getItemMeta().getLore();
+                        if (lore != null) {
+                            UtilItem.newItem(name, item.getType(), 1, Data.translate(player, lore, keys)
+                                    , slot, inv);
+                        } else {
+                            UtilItem.newItem(name, item.getType(), 1, Arrays.asList("")
+                                    , slot, inv);
+                        }
+
                     }
-                } else{
+
+                } else {
+
                     if (item != null) {
-                        UtilItem.newItem(name, item.getType(), 1, Arrays.asList(
-                                ChatColor.GOLD + "현재 스탯: " +
-                                        ChatColor.RED + (int) data.addModifier(StatType.valueOf(keys)).getStat() + "§6/" + ChatColor.RED + "infinite"), slot, inv);
+                        List<String> lore = item.getItemMeta().getLore();
+                        UtilItem.newItem(name, item.getType(), 1, Data.translate(player, lore, keys), slot, inv);
                     }
+
                 }
 
             }

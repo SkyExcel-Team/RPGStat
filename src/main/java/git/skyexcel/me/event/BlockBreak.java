@@ -3,6 +3,7 @@ package git.skyexcel.me.event;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
+import net.minecraft.server.v1_12_R1.SoundEffects;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -44,8 +46,12 @@ public class BlockBreak implements Listener {
         farm.add(new ItemStack(Material.MELON_BLOCK));
         farm.add(new ItemStack(Material.PUMPKIN));
         farm.add(new ItemStack(Material.CARROT));
-        farm.add(new ItemStack(Material.WHEAT));
+        farm.add(new ItemStack(Material.CROPS));
 
+        farm_item.add(new ItemStack(Material.MELON_BLOCK));
+        farm_item.add(new ItemStack(Material.PUMPKIN));
+        farm_item.add(new ItemStack(Material.CARROT_ITEM));
+        farm_item.add(new ItemStack(Material.WHEAT));
     }
 
     @EventHandler
@@ -57,6 +63,7 @@ public class BlockBreak implements Listener {
 
         StatData stat = new StatData(player);
         ItemStack item = new ItemStack(block.getType(), 1);
+
 
         if (ores.contains(item)) { //광물을 캘 시
             int indexof = ores.indexOf(item);
@@ -72,27 +79,28 @@ public class BlockBreak implements Listener {
                 if (random < mine) {
                     dropped.setAmount(2);
                     loc.getWorld().dropItem(loc, dropped);
-                    player.sendMessage("2");
+
                 }
             } else {
                 if (random < mine) {
                     dropped.setAmount(3);
                     loc.getWorld().dropItem(loc, dropped);
-                    player.sendMessage("3");
                 }
             }
-        } else if(farm.contains(item)){
-            switch (git.skyexcel.me.util.Random.RandomByStat(player, StatType.FISH)){
+        } else if (farm.contains(item)) {
+            int indexof = farm.indexOf(item);
+            ItemStack dropped = farm_item.get(indexof);
+
+            switch (git.skyexcel.me.util.Random.RandomByStat(player, StatType.FARM)) {
                 case 2:
-                    player.sendMessage("2개됨 ㅊㅊ");
+                    dropped.setAmount(2);
+                    loc.getWorld().dropItem(loc, dropped);
                     break;
                 case 3:
-                    player.sendMessage("3개됨 ㅊㅊ");
+                    dropped.setAmount(3);
+                    loc.getWorld().dropItem(loc, dropped);
                     break;
             }
         }
-
-        event.setCancelled(true);
     }
-
 }

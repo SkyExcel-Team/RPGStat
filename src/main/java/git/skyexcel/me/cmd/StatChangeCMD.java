@@ -31,7 +31,14 @@ public class StatChangeCMD implements CommandExecutor {
                     if (args.length > 1) {
                         StatType type = StatType.valueOf(args[1]);
                         StatConfigData config = new StatConfigData();
-                        String msg = args[2];
+
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 2; i < args.length; i++)
+                            sb.append(args[i]).append(" ");
+
+                        String msg = sb.toString();
+
+                        config.setPlayer(player);
                         config.addLore(type, msg);
 
                         player.sendMessage("성공적으로 설정하였습니다!");
@@ -43,8 +50,8 @@ public class StatChangeCMD implements CommandExecutor {
                         StatType type = StatType.valueOf(args[1]);
                         StatConfigData config = new StatConfigData();
                         int line = Integer.parseInt(args[2]);
-
-                        config.removeLore(type,line);
+                        config.setPlayer(player);
+                        config.removeLore(type, line);
 
 
                     }

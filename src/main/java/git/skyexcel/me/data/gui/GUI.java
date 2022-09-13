@@ -25,8 +25,8 @@ public class GUI {
         Inventory inv = Bukkit.createInventory(null, 27, "스텟 설정");
 
         UtilItem.newItem(Data.upgradeStat, Material.EMERALD, 1, Arrays.asList(""), 10, inv);
-        UtilItem.newItem(Data.limitStat, Material.RECORD_12, 1, Arrays.asList(""), 13, inv);
-        UtilItem.newItem(Data.editGUI, Material.NAME_TAG, 1, Arrays.asList(""), 16, inv);
+        UtilItem.newItem(Data.limitStat, Material.RECORD_12, 1, Arrays.asList(""), 16, inv);
+
         player.openInventory(inv);
         Data.isAddStast.put(player.getUniqueId(), inv);
         return inv;

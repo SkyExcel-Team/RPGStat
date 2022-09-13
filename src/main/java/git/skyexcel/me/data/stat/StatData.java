@@ -32,38 +32,48 @@ public class StatData implements Stat{
     @Override
     public void setStat(double value) {
         Objects.requireNonNull(statType, "StatType is null!");
+        if(decreasePoint(1)){
+            switch (statType){
+                case MAX_HEALTH:
+                    setValue("stat." + statType.name(),value);
+                    break;
+                case FALL:
+                    setValue("stat." + statType.name(),value);
+                    break;
+                case FARM:
+                    setValue("stat." + statType.name(),value);
+                    break;
+                case MINE:
+                    setValue("stat." + statType.name(),value);
+                    break;
+                case SPEED:
+                    setValue("stat." + statType.name(),value);
+                    break;
+                case ATTACK_DAMAGE:
+                    setValue("stat." + statType.name(),value);
+                    break;
+                case CRITICAL_DAMAGE:
+                    setValue("stat." + statType.name(),value);
+                    break;
+                case RANGED_ATTACK_DAMAGE:
 
-        switch (statType){
-            case MAX_HEALTH:
-                setValue("stat." + statType.name(),value);
-                break;
-            case FALL:
-                setValue("stat." + statType.name(),value);
-                break;
-            case FARM:
-                setValue("stat." + statType.name(),value);
-                break;
-            case MINE:
-                setValue("stat." + statType.name(),value);
-                break;
-            case SPEED:
-                setValue("stat." + statType.name(),value);
-                break;
-            case ATTACK_DAMAGE:
-                setValue("stat." + statType.name(),value);
-                break;
-            case CRITICAL_DAMAGE:
-                setValue("stat." + statType.name(),value);
-                break;
-            case RANGED_ATTACK_DAMAGE:
+                    setValue("stat." + statType.name(),value);
 
-                setValue("stat.",value);
-                break;
-            case LEVELUP:
+                    break;
+                case LEVELUP:
 
-                setValue("stat.",value);
-                break;
+                    setValue("stat.",value);
+                    break;
+                case FISH:
+                    setValue("stat." + statType.name(),value);
+                    break;
+
+                case DEFENSE:
+                    setValue("stat." + statType.name(),value);
+                    break;
+            }
         }
+
         config.saveConfig();
     }
 
@@ -88,7 +98,13 @@ public class StatData implements Stat{
                 return config.getDouble("stat." + statType.name());
 
             case RANGED_ATTACK_DAMAGE:
-                return config.getDouble("stat.ranged_damage");
+                return config.getDouble("stat." + statType.name());
+            case DEFENSE:
+
+                return config.getDouble("stat." + statType.name());
+            case FISH:
+                return config.getDouble("stat." + statType.name());
+
         }
         return -1;
     }
@@ -109,7 +125,7 @@ public class StatData implements Stat{
     private void setValue(String path, double value){
         if(config.getConfig().get(path) == null)
             config.setDouble(path,value);
-        config.setDouble(path,config.getDouble(path) + value);
+        config.setDouble(path,config.getDouble( path) + value);
     }
     public void listStat(Player target) {
         ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
@@ -162,6 +178,19 @@ public class StatData implements Stat{
 
         config.setDouble(path, config.getDouble(path) + value);
     }
+    public boolean decreasePoint(int value) {
+        String path = "stat.points";
+        StatConfigData data = new StatConfigData();
+
+        if (config.getInteger(path) - value >= 0 && getStat() != data.getLimitKey(statType.name())) {
+            config.setInteger(path, config.getInteger(path) - value);
+            return true;
+        } else {
+            player.sendMessage("§c> 스텟 포인트가 부족합니다!");
+        }
+        return false;
+    }
+
     public void changeStat(double value) {
         String path = "stat." + statType.name();
 

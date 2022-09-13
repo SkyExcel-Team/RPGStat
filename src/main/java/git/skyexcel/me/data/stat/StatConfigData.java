@@ -111,11 +111,11 @@ public class StatConfigData implements Stat {
             config.setDouble("stat." + key + ".limit", getLimitKey(key.name()));
         }
 
-        if(config.getConfig().get("stat." + key + ".item") == null){
+        if (config.getConfig().get("stat." + key + ".item") == null) {
             config.getConfig().set("stat." + key + ".item", item.getItem());
         } else {
             ItemStack original = getItems(key.name());
-            if(original.hasItemMeta()){
+            if (original.hasItemMeta()) {
                 ItemMeta meta = getItems(key.name()).getItemMeta();
                 item.getItem().setItemMeta(meta);
                 config.getConfig().set("stat." + key + ".item", item.getItem());
@@ -149,6 +149,8 @@ public class StatConfigData implements Stat {
             case "RANGED_ATTACK_DAMAGE":
                 return ChatColor.translateAlternateColorCodes('&', result);
             case "DEFENSE":
+                return ChatColor.translateAlternateColorCodes('&', result);
+            case "FISH":
                 return ChatColor.translateAlternateColorCodes('&', result);
         }
 
@@ -189,6 +191,10 @@ public class StatConfigData implements Stat {
             case "DEFENSE":
                 item = (ItemStack) config.getConfig().get("stat." + key + ".item");
                 return item;
+            case "FISH":
+                item = (ItemStack) config.getConfig().get("stat." + key + ".item");
+                return item;
+
 
         }
         statType = null;
@@ -226,6 +232,10 @@ public class StatConfigData implements Stat {
                 return config.getInteger("stat." + key + ".slot");
             case "DEFENSE":
                 return config.getInteger("stat." + key + ".slot");
+
+            case "FISH":
+
+                return config.getInteger("stat." + key + ".slot");
         }
         statType = null;
         return -1;
@@ -262,43 +272,44 @@ public class StatConfigData implements Stat {
     }
 
     public void addLore(StatType type, String msg) {
-        ItemStack item = getItems(statType.name());
+        ItemStack item = getItems(type.name());
         if (item != null) {
             ItemMeta meta = item.getItemMeta();
-            if (item.hasItemMeta()){
+            if (item.hasItemMeta()) {
                 List<String> lore = meta.getLore();
-                if(msg.equalsIgnoreCase(null)){
+                if (msg.equalsIgnoreCase(null)) {
                     lore.add("");
                     meta.setLore(lore);
-                } else{
+                } else {
                     lore.add(msg);
                     meta.setLore(lore);
                 }
 
-            } else{
+            } else {
                 List<String> lore = new ArrayList<>();
-                if(msg.equalsIgnoreCase(null)){
+                if (msg.equalsIgnoreCase(null)) {
                     lore.add("");
                     meta.setLore(lore);
-                } else{
+                } else {
                     lore.add(msg);
                     meta.setLore(lore);
                 }
             }
             item.setItemMeta(meta);
         }
-        setItem(getItems(type.name()).getItemMeta().getDisplayName(),getItems(statType.name()).getAmount(),statType);
+        setItem(getItems(type.name()).getItemMeta().getDisplayName(), getSlots(type.name()), type);
+
     }
 
     public void removeLore(StatType type, int line) {
-        ItemStack item = getItems(statType.name());
+        ItemStack item = getItems(type.name());
         if (item != null) {
             ItemMeta meta = item.getItemMeta();
-            if (item.hasItemMeta()){
+            if (item.hasItemMeta()) {
                 List<String> lore = meta.getLore();
-                if(lore.size() < line){
+                if (lore.size() < line) {
                     player.sendMessage(ChatColor.RED + " 해당 줄은 로어에 존재하지 않습니다.");
-                } else{
+                } else {
                     lore.remove(line);
                     meta.setLore(lore);
                     player.sendMessage("성공적으로 로어를 삭제 하였습니다!");
@@ -307,7 +318,7 @@ public class StatConfigData implements Stat {
             }
             item.setItemMeta(meta);
         }
-        setItem(getItems(type.name()).getItemMeta().getDisplayName(),getItems(statType.name()).getAmount(),statType);
+        setItem(getItems(type.name()).getItemMeta().getDisplayName(), getSlots(type.name()), type);
     }
 
 
@@ -323,6 +334,11 @@ public class StatConfigData implements Stat {
     }
 
 
+    public void setName(String name,String key){
+        player.sendMessage("성공적으로 이름을 수정하였습니다!");
+        config.setString("stat." + key + ".name", ChatColor.translateAlternateColorCodes('&',name));
+        config.saveConfig();
+    }
     public void setUpgrade(double upgrade, StatType key) {
 
         config.setDouble("stat." + key + ".upgrade", config.getDouble("stat." + key + ".upgrade") + upgrade);
@@ -345,7 +361,9 @@ public class StatConfigData implements Stat {
     }
 
     public double getUpgrade() {
-        return config.getDouble("stat." + statType.name() + ".upgrade");
+        if (statType != null)
+            return config.getDouble("stat." + statType.name() + ".upgrade");
+        return -1;
     }
 
     public Config getConfig() {
