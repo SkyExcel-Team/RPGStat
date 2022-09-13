@@ -26,5 +26,4 @@ public class Random {
         }
         return -1;
     }
-
 }

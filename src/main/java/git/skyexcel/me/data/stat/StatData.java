@@ -1,7 +1,8 @@
 package git.skyexcel.me.data.stat;
 
-import data.Config;
-import git.skyexcel.me.Main;
+
+import git.skyexcel.me.RPGStatSystem;
+import git.skyexcel.me.data.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -20,8 +21,8 @@ public class StatData implements Stat{
 
     public StatData(Player player) {
         this.player = player;
-        config = new Config(Main.getDataPath(player));
-        this.config.setPlugin(Main.plugin);
+        config = new Config(RPGStatSystem.getDataPath(player));
+        this.config.setPlugin(RPGStatSystem.plugin);
     }
 
     @Override
@@ -35,32 +36,32 @@ public class StatData implements Stat{
         Objects.requireNonNull(statType, "StatType is null!");
 
         switch (statType){
-            case Max_Health:
+            case MAX_HEALTH:
                 setValue("stat." + statType.name(),value);
                 break;
-            case Fall:
+            case FALL:
                 setValue("stat." + statType.name(),value);
                 break;
-            case Farm:
+            case FARM:
                 setValue("stat." + statType.name(),value);
                 break;
-            case Mine:
+            case MINE:
                 setValue("stat." + statType.name(),value);
                 break;
-            case Speed:
+            case SPEED:
                 setValue("stat." + statType.name(),value);
                 break;
-            case Attack_Damage:
+            case ATTACK_DAMAGE:
                 setValue("stat." + statType.name(),value);
                 break;
-            case Critical_Damage:
+            case CRITICAL_DAMAGE:
                 setValue("stat." + statType.name(),value);
                 break;
-            case Ranged_Attack_Damage:
+            case RANGED_ATTACK_DAMAGE:
 
                 setValue("stat.",value);
                 break;
-            case LevelUp:
+            case LEVELUP:
 
                 setValue("stat.",value);
                 break;
@@ -73,22 +74,22 @@ public class StatData implements Stat{
         Objects.requireNonNull(statType, "StatType is null!");
 
         switch (statType) {
-            case Max_Health:
+            case MAX_HEALTH:
                 return config.getDouble("stat." +statType.name());
-            case Fall:
+            case FALL:
                 return config.getDouble("stat." + statType.name());
-            case Farm:
+            case FARM:
                 return config.getDouble("stat." + statType.name());
-            case Mine:
+            case MINE:
                 return config.getDouble("stat." + statType.name());
-            case Speed:
+            case SPEED:
                 return config.getDouble("stat." + statType.name());
-            case Attack_Damage:
+            case ATTACK_DAMAGE:
                 return config.getDouble("stat." + statType.name());
-            case Critical_Damage:
+            case CRITICAL_DAMAGE:
                 return config.getDouble("stat." + statType.name());
 
-            case Ranged_Attack_Damage:
+            case RANGED_ATTACK_DAMAGE:
                 return config.getDouble("stat.ranged_damage");
         }
         return -1;
@@ -111,5 +112,9 @@ public class StatData implements Stat{
         if(config.getConfig().get(path) == null)
             config.setDouble(path,value);
         config.setDouble(path,config.getDouble(path) + value);
+    }
+
+    public Config getConfig() {
+        return config;
     }
 }

@@ -207,7 +207,7 @@ public class StatConfigData implements Stat {
 
                 return config.getInteger("stat." + key + ".slot");
 
-            case "Ranged_Attack_Damage":
+            case "RANGED_ATTACK_DAMAGE":
                 return config.getInteger("stat." + key + ".slot");
             case "DEFENSE":
                 return config.getInteger("stat." + key + ".slot");

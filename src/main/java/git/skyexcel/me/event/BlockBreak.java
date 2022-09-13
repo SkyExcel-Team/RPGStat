@@ -3,7 +3,6 @@ package git.skyexcel.me.event;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,6 +18,9 @@ public class BlockBreak implements Listener {
 
     private static ArrayList<ItemStack> ores = new ArrayList<>();
     private static ArrayList<ItemStack> item = new ArrayList<>();
+    private static ArrayList<ItemStack> farm = new ArrayList<>();
+
+    private static ArrayList<ItemStack> farm_item = new ArrayList<>();
 
     static {
         ores.add(new ItemStack(Material.COAL_ORE));
@@ -39,6 +40,12 @@ public class BlockBreak implements Listener {
         item.add(new ItemStack(Material.REDSTONE));
         item.add(new ItemStack(Material.EMERALD));
         item.add(new ItemStack(Material.DIAMOND));
+
+        farm.add(new ItemStack(Material.MELON_BLOCK));
+        farm.add(new ItemStack(Material.PUMPKIN));
+        farm.add(new ItemStack(Material.CARROT));
+        farm.add(new ItemStack(Material.WHEAT));
+
     }
 
     @EventHandler
@@ -74,17 +81,18 @@ public class BlockBreak implements Listener {
                     player.sendMessage("3");
                 }
             }
+        } else if(farm.contains(item)){
+            switch (git.skyexcel.me.util.Random.RandomByStat(player, StatType.FISH)){
+                case 2:
+                    player.sendMessage("2개됨 ㅊㅊ");
+                    break;
+                case 3:
+                    player.sendMessage("3개됨 ㅊㅊ");
+                    break;
+            }
         }
 
         event.setCancelled(true);
     }
 
-    public void dropItem(Player player, Block block) {
-        if (ores.contains(block.getType())) {
-
-        }
-        ItemStack item = new ItemStack(Material.COAL, 2);
-        player.getWorld().dropItem(block.getLocation(), item);
-
-    }
 }
