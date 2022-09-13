@@ -290,6 +290,27 @@ public class StatConfigData implements Stat {
         setItem(getItems(type.name()).getItemMeta().getDisplayName(),getItems(statType.name()).getAmount(),statType);
     }
 
+    public void removeLore(StatType type, int line) {
+        ItemStack item = getItems(statType.name());
+        if (item != null) {
+            ItemMeta meta = item.getItemMeta();
+            if (item.hasItemMeta()){
+                List<String> lore = meta.getLore();
+                if(lore.size() < line){
+                    player.sendMessage(ChatColor.RED + " 해당 줄은 로어에 존재하지 않습니다.");
+                } else{
+                    lore.remove(line);
+                    meta.setLore(lore);
+                    player.sendMessage("성공적으로 로어를 삭제 하였습니다!");
+                }
+
+            }
+            item.setItemMeta(meta);
+        }
+        setItem(getItems(type.name()).getItemMeta().getDisplayName(),getItems(statType.name()).getAmount(),statType);
+    }
+
+
     public void test(StatData data) {
         ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
 

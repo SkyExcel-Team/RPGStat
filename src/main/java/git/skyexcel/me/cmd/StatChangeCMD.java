@@ -31,21 +31,23 @@ public class StatChangeCMD implements CommandExecutor {
                     if (args.length > 1) {
                         StatType type = StatType.valueOf(args[1]);
                         StatConfigData config = new StatConfigData();
-                        if (args.length > 2) {
-                            int line = Integer.parseInt(args[2]);
-                            String msg = args[3];
+                        String msg = args[2];
+                        config.addLore(type, msg);
 
-
-                            config.addLore(type,msg);
-
-                            player.sendMessage("성공적으로 설정하였습니다!");
-                        } else{
-                            String msg = args[2];
-
-
-                        }
+                        player.sendMessage("성공적으로 설정하였습니다!");
                     }
 
+                    break;
+                case "로어삭제":
+                    if (args.length > 1) {
+                        StatType type = StatType.valueOf(args[1]);
+                        StatConfigData config = new StatConfigData();
+                        int line = Integer.parseInt(args[2]);
+
+                        config.removeLore(type,line);
+
+
+                    }
                     break;
 
                 case "세부설정":
@@ -82,7 +84,7 @@ public class StatChangeCMD implements CommandExecutor {
                         StatData data = new StatData(target);
                         data.collapseStat();
                         player.sendMessage("§a성공적으로 §f" + target.getDisplayName() + " §a님의 스텟을 초기화하였습니다!!");
-                    } else{
+                    } else {
 
 
                         StatData data = new StatData(player);
