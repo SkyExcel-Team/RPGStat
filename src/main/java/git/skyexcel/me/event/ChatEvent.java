@@ -1,7 +1,9 @@
 package git.skyexcel.me.event;
 
 import git.skyexcel.me.data.Data;
+import git.skyexcel.me.data.gui.GUI;
 import git.skyexcel.me.data.stat.StatConfigData;
+import git.skyexcel.me.data.stat.StatData;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,22 +20,23 @@ public class ChatEvent implements Listener {
 
         if(Data.name.containsKey(player.getUniqueId())){
             String name = Data.name.get(player.getUniqueId());
-            StatConfigData data = new StatConfigData();
-            data.setPlayer(player);
+            StatConfigData config = new StatConfigData();
+            config.setPlayer(player);
+            StatData data = new StatData(player);
             if(!Data.line.containsKey(player.getUniqueId())){
                 try{
                     int line = Integer.parseInt(chat);
                     Data.line.put(player.getUniqueId(),line);
+
                     player.sendMessage("> 로어를 입력해 주세요!");
                 } catch (NumberFormatException e){
                     player.sendMessage(ChatColor.RED + "> error : " + ChatColor.GRAY + "숫자로 입력해 주세요!");
                 }
             } else if(!Data.lore.containsKey(player.getUniqueId())){
-                List<String> lore = Data.lore.get(player.getUniqueId());
-                lore.set(Data.line.get(player.getUniqueId()),chat);
-                Data.lore.put(player.getUniqueId(),lore);
-                player.sendMessage(ChatColor.GREEN + "> success : " + ChatColor.GRAY + "적용되었습니다!");
 
+                config.addLore(chat);
+                player.sendMessage(ChatColor.GREEN + "> success : " + ChatColor.GRAY + "적용되었습니다!");
+                GUI.editGUI(config,data,player);
             }
         }
     }

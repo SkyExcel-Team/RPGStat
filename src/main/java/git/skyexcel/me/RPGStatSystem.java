@@ -35,7 +35,7 @@ public class RPGStatSystem extends JavaPlugin {
         this.config = new Config("config");
         config.setPlugin(plugin);
         config.loadDefaultPluginConfig();
-        Listener[] events = {new ChatEvent(), new DamageEvent(), new InventoryEvent(), new JoinEvent(), new LevelUpEvent(),new BlockBreak(),new MoveEvent()};
+        Listener[] events = {new ChatEvent(), new DamageEvent(), new InventoryEvent(), new JoinEvent(), new LevelUpEvent(),new BlockBreak() };
         PluginManager pm = Bukkit.getPluginManager();
         Arrays.stream(events).forEach(classes -> {
             pm.registerEvents(classes, this);

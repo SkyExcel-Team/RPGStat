@@ -74,40 +74,32 @@ public class InventoryEvent implements Listener {
                         switch (event.getSlot()) {
                             case 18: // + 0.01
                                 config.setUpgrade(0.01, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
                             case 19: // + 0.1
                                 config.setUpgrade(0.1, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 20: // + 1
                                 config.setUpgrade(1, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 21: // + 10
                                 config.setUpgrade(10, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 23: // - 0.01
                                 config.setUpgrade(-0.01, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
                             case 24: // - 0.1
                                 config.setUpgrade(-0.1, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 25: // - 1
                                 config.setUpgrade(-1, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 26: // - 10
                                 config.setUpgrade(-10, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
                         }
 
@@ -117,31 +109,25 @@ public class InventoryEvent implements Listener {
 
                             case 21: // + 100
                                 config.setLimit(1, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 20: // +  10
                                 config.setLimit(10, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 19: // + 1
                                 config.setLimit(100, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 23: // - 100
                                 config.setLimit(-1, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
                             case 24: // - 10
                                 config.setLimit(-10, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
                             case 25: // - 1
                                 config.setLimit(-100, Data.type.get(player.getUniqueId()));
-                                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1, 1);
                                 break;
 
 

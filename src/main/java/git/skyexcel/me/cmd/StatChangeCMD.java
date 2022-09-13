@@ -26,9 +26,7 @@ public class StatChangeCMD implements CommandExecutor {
                     }
 
                     break;
-                case "추가":
 
-                    break;
                 case "세부설정":
                     if (args.length > 1) {
                         Player target = Bukkit.getPlayer(args[1]);

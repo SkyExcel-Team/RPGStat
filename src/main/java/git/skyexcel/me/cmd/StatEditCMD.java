@@ -4,7 +4,6 @@ import git.skyexcel.me.data.Data;
 import git.skyexcel.me.data.gui.GUI;
 import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
-import git.skyexcel.me.data.stat.Stat;
 import git.skyexcel.me.data.stat.StatType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -82,7 +81,8 @@ public class StatEditCMD implements CommandExecutor, TabCompleter {
 
                     }
                 } else {
-                   player.sendMessage("/스텟설정 편집 <스텟종류> : 해당 스텟 설정 GUI창\n" +
+                   player.sendMessage(
+                           "/스텟설정 편집 <스텟종류> : 해당 스텟 설정 GUI창\n" +
                            "/스텟설정 이름수정 <스텟이름> <수정할이름> : 기존의 스텟의 이름을 바꿀때 사용\n" +
                            "/스텟설정 아이템 <슬롯위치> <스텟이름> : 기존의 스텟의 아이템 슬롯 바꿀때 사용\n" +
                            "스텟설정으로 연 GUI 창에서 아이템을 클릭후 \n" +

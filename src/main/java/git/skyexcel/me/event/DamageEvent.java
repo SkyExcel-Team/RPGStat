@@ -4,7 +4,6 @@ import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
 import git.skyexcel.me.util.Random;
-import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -24,7 +23,7 @@ public class DamageEvent implements Listener {
         EntityDamageEvent.DamageCause cause = event.getCause();
 
 
-        switch (cause) {
+        switch (cause) { //낙하 데미지
             case FALL:
                 if (entity instanceof Player) {
                     Player player = (Player) entity;
@@ -58,7 +57,6 @@ public class DamageEvent implements Listener {
                         Player player = (Player) damager; //데미저를 플레이어로 변환한다
                         Player target = (Player) entity; //데미지를 입은 사람을 타겟으로 지정한다.
 
-
                         StatData target_data = new StatData(target);
 
                         StatConfigData config = new StatConfigData();
@@ -67,11 +65,12 @@ public class DamageEvent implements Listener {
                         double defense = target_data.addModifier(StatType.DEFENSE).getStat();
 
                         double newdamage = damage * (1 / (1 + (defense * upgrade)));
-                        event.setDamage(newdamage);
-
+                        if(Random.randomOverByStat(player,StatType.CRITICAL_DAMAGE)){
+                            event.setDamage(newdamage * 2);
+                        } else{
+                            event.setDamage(newdamage);
+                        }
                         target.sendMessage("방어력 : " + defense + " 데미지 : " + damage + " 방어한 데미지 " + newdamage);
-
-
 
                     } else if (!(damager instanceof Player)) { // 데미지를 입은 사람이 플레이어고, 플레이어를 때린 대상이 몹일 경우
 
@@ -80,7 +79,6 @@ public class DamageEvent implements Listener {
                         StatConfigData config = new StatConfigData();
 
                         double newdamage = damage(config, target_data, damage);
-
                         event.setDamage(newdamage);
                     }
                 } else { // 때린 타겟이 플레이어가 아닐 경우
@@ -97,23 +95,25 @@ public class DamageEvent implements Listener {
 
                             double newdamage = shooter_damage * (1 / (1 + (getEPF(((PlayerInventory) entity)) * upgrade))); //방어률과 비례하여 데미지를 설정
 
-                            event.setDamage(newdamage);
+                            if(Random.randomOverByStat(shooter,StatType.CRITICAL_DAMAGE)){
+                                event.setDamage(newdamage * 2);
+                            } else{
+                                event.setDamage(newdamage);
+                            }
                         }
                     } else {// 플레이어가 근접 공격에 맞았을때
                         Player player = (Player) damager;
-                        StatData data = new StatData(player);
+                        Player target = (Player) entity; //데미지를 입은 사람을 타겟으로 지정한다.
+                        StatData target_data = new StatData(target);
+                        StatConfigData config = new StatConfigData();
 
-                        switch (Random.RandomByStat(player, StatType.CRITICAL_DAMAGE)) {
-                            case 2:
-                                double attackDamage = data.addModifier(StatType.ATTACK_DAMAGE).getStat();
-
-                                event.setDamage(attackDamage + event.getDamage());
-
-                                attackDamage *= 2F; // 2배 대미지!
-                                player.sendMessage(ChatColor.GOLD + "Critical!" + attackDamage);
-
-                                break;
+                        double newdamage = damage(config, target_data, damage);
+                        if(Random.randomOverByStat(player,StatType.CRITICAL_DAMAGE)){
+                            event.setDamage(newdamage * 2);
+                        } else{
+                            event.setDamage(newdamage);
                         }
+
                     }
                 }
                 break;

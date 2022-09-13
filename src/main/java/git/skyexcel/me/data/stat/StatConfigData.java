@@ -7,7 +7,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class StatConfigData implements Stat {
@@ -100,9 +103,9 @@ public class StatConfigData implements Stat {
         config.setInteger("stat." + key + ".slot", slot);
         if (config.getConfig().get("stat." + key + ".upgrade") == null)
             config.setDouble("stat." + key + ".upgrade", 1);
-        if (config.getConfig().get("stat." + key + ".limit") == null){
+        if (config.getConfig().get("stat." + key + ".limit") == null) {
             config.setDouble("stat." + key + ".limit", 0);
-        } else{
+        } else {
             config.setDouble("stat." + key + ".limit", getLimitKey(key.name()));
         }
 
@@ -241,11 +244,28 @@ public class StatConfigData implements Stat {
                 int upgrade = config.getInteger("stat." + keys + ".upgrade");
                 int limit = config.getInteger("stat." + keys + ".limit");
                 player.sendMessage(
-                        ChatColor.GOLD + " 스텟 {" + ChatColor.GRAY + keys + ChatColor.GOLD + "} 강화 {" + ChatColor.WHITE + upgrade + "§6} 한도 : "  + limit);
+                        ChatColor.GOLD + " 스텟 {" + ChatColor.GRAY + keys + ChatColor.GOLD + "} 강화 {" + ChatColor.WHITE + upgrade + "§6} 한도 : " + limit);
             }
         }
     }
 
+    public void addLore(String msg) {
+        ItemStack item = getItems(statType.name());
+        if (item != null) {
+            ItemMeta meta = item.getItemMeta();
+            if (item.hasItemMeta()){
+                List<String> lore = meta.getLore();
+                lore.add(msg);
+                meta.setLore(lore);
+            } else{
+                List<String> lore = new ArrayList<>();
+                lore.add(msg);
+                meta.setLore(lore);
+            }
+            item.setItemMeta(meta);
+        }
+        setItem(getItems(statType.name()).getItemMeta().getDisplayName(),getItems(statType.name()).getAmount(),statType);
+    }
 
     public void test(StatData data) {
         ConfigurationSection section = config.getConfig().getConfigurationSection("stat");

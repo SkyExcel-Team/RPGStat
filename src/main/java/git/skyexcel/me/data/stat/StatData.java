@@ -17,8 +17,6 @@ public class StatData implements Stat{
     private StatType statType;
     private Config config;
 
-
-
     public StatData(Player player) {
         this.player = player;
         config = new Config(RPGStatSystem.getDataPath(player));
@@ -112,6 +110,72 @@ public class StatData implements Stat{
         if(config.getConfig().get(path) == null)
             config.setDouble(path,value);
         config.setDouble(path,config.getDouble(path) + value);
+    }
+    public void listStat(Player target) {
+        ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
+
+        target.sendMessage(player.getDisplayName() + " 님의 스텟");
+
+
+        target.sendMessage("§a스텟 포인트: §7" + getStatPoint());
+        for (String key : section.getKeys(true)) {
+            if (!key.equalsIgnoreCase("points")) {
+                double stats = addModifier(StatType.valueOf(key)).getStat();
+                StatConfigData config = new StatConfigData();
+
+                target.sendMessage(config.translate(key) + " §a: §7" + stats);
+            }
+        }
+    }
+    public void resetStat() {
+        ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
+
+        for (String key : section.getKeys(true)) {
+            if (!key.equalsIgnoreCase("points")) {
+                section.set(key, 0);
+            }
+        }
+        config.saveConfig();
+    }
+    public void setStatPoint(int value) {
+        String path = "stat.points";
+
+        config.setInteger(path, value);
+    }
+
+    public void collapseStat() {
+        ConfigurationSection section = config.getConfig().getConfigurationSection("stat");
+        int stat = 0;
+        for (String key : section.getKeys(true)) {
+            if (!key.equalsIgnoreCase("points")) {
+                double stats = addModifier(StatType.valueOf(key)).getStat();
+                stat += stats;
+                section.set(key, 0);
+            }
+        }
+
+        section.set("points", stat + section.getDouble("points"));
+        config.saveConfig();
+    }
+    public void addStat(double value) {
+        String path = "stat." + statType.name();
+
+        config.setDouble(path, config.getDouble(path) + value);
+    }
+    public void changeStat(double value) {
+        String path = "stat." + statType.name();
+
+        config.setDouble(path, value);
+    }
+
+    public void increaseValue(String path, double value) {
+        if (config.getConfig().get(path) == null)
+            config.setDouble(path, value);
+        config.setDouble(path, config.getDouble(path) - value);
+    }
+
+    public Integer getStatPoint() {
+        return config.getInteger("stat.points");
     }
 
     public Config getConfig() {

@@ -26,4 +26,18 @@ public class Random {
         }
         return -1;
     }
+
+    public static boolean randomOverByStat(Player player,StatType type){
+        StatConfigData config = new StatConfigData();
+        StatData stat = new StatData(player);
+        double mine = stat.addModifier(type).getStat() * config.addModifier(type).getUpgrade();
+
+        java.util.Random select = new java.util.Random();
+        int random = select.nextInt((100));
+        if (random < mine) {
+
+            return true;
+        }
+        return false;
+    }
 }
