@@ -99,8 +99,10 @@ public class StatConfigData implements Stat {
         NBTItem item = new NBTItem(itemStack);
         item.applyNBT(itemStack);
 
+
         config.setString("stat." + key + ".name", key.name());
         config.setInteger("stat." + key + ".slot", slot);
+
         if (config.getConfig().get("stat." + key + ".upgrade") == null)
             config.setDouble("stat." + key + ".upgrade", 1);
         if (config.getConfig().get("stat." + key + ".limit") == null) {
@@ -109,8 +111,18 @@ public class StatConfigData implements Stat {
             config.setDouble("stat." + key + ".limit", getLimitKey(key.name()));
         }
 
+        if(config.getConfig().get("stat." + key + ".item") == null){
+            config.getConfig().set("stat." + key + ".item", item.getItem());
+        } else {
+            ItemStack original = getItems(key.name());
+            if(original.hasItemMeta()){
+                ItemMeta meta = getItems(key.name()).getItemMeta();
+                item.getItem().setItemMeta(meta);
+                config.getConfig().set("stat." + key + ".item", item.getItem());
+            }
+        }
 
-        config.getConfig().set("stat." + key + ".item", player.getInventory().getItemInMainHand());
+
         config.saveConfig();
     }
 
@@ -249,22 +261,33 @@ public class StatConfigData implements Stat {
         }
     }
 
-    public void addLore(String msg) {
+    public void addLore(StatType type, String msg) {
         ItemStack item = getItems(statType.name());
         if (item != null) {
             ItemMeta meta = item.getItemMeta();
             if (item.hasItemMeta()){
                 List<String> lore = meta.getLore();
-                lore.add(msg);
-                meta.setLore(lore);
+                if(msg.equalsIgnoreCase(null)){
+                    lore.add("");
+                    meta.setLore(lore);
+                } else{
+                    lore.add(msg);
+                    meta.setLore(lore);
+                }
+
             } else{
                 List<String> lore = new ArrayList<>();
-                lore.add(msg);
-                meta.setLore(lore);
+                if(msg.equalsIgnoreCase(null)){
+                    lore.add("");
+                    meta.setLore(lore);
+                } else{
+                    lore.add(msg);
+                    meta.setLore(lore);
+                }
             }
             item.setItemMeta(meta);
         }
-        setItem(getItems(statType.name()).getItemMeta().getDisplayName(),getItems(statType.name()).getAmount(),statType);
+        setItem(getItems(type.name()).getItemMeta().getDisplayName(),getItems(statType.name()).getAmount(),statType);
     }
 
     public void test(StatData data) {

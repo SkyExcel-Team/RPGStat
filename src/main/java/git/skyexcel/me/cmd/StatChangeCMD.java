@@ -1,5 +1,6 @@
 package git.skyexcel.me.cmd;
 
+import git.skyexcel.me.data.stat.StatConfigData;
 import git.skyexcel.me.data.stat.StatData;
 import git.skyexcel.me.data.stat.StatType;
 import org.bukkit.Bukkit;
@@ -22,6 +23,26 @@ public class StatChangeCMD implements CommandExecutor {
                             StatData data = new StatData(target);
                             data.setStatPoint(statpoint);
                             player.sendMessage("§a성공적으로 §f" + target.getDisplayName() + " §a님의 스텟을 §6" + statpoint + " §a으로 설정하였습니다!");
+                        }
+                    }
+
+                    break;
+                case "로어":
+                    if (args.length > 1) {
+                        StatType type = StatType.valueOf(args[1]);
+                        StatConfigData config = new StatConfigData();
+                        if (args.length > 2) {
+                            int line = Integer.parseInt(args[2]);
+                            String msg = args[3];
+
+
+                            config.addLore(type,msg);
+
+                            player.sendMessage("성공적으로 설정하였습니다!");
+                        } else{
+                            String msg = args[2];
+
+
                         }
                     }
 

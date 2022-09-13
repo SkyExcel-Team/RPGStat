@@ -58,9 +58,7 @@ public class InventoryEvent implements Listener {
                         event.setCancelled(true);
 
                     } else if (event.getView().getTitle().equalsIgnoreCase("스텟 설정")) {
-                        if (name.equalsIgnoreCase("§fGUI 설정")) {
-                            GUI.editGUI(config, data, player);
-                        }
+
                         switch (name) {
                             case Data.upgradeStat:
                                 GUI.upgradeGUI(player);
@@ -68,6 +66,7 @@ public class InventoryEvent implements Listener {
                             case Data.limitStat:
                                 GUI.limitGUI(player);
                                 break;
+
                         }
                         event.setCancelled(true);
                     } else if (event.getView().getTitle().equalsIgnoreCase(Data.upgradeStat)) {

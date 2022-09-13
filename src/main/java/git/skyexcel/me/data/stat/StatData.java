@@ -178,6 +178,21 @@ public class StatData implements Stat{
         return config.getInteger("stat.points");
     }
 
+    public void increaseStatPoint(int value) {
+        String path = "stat.points";
+        if (config.getConfig().get(path) == null)
+            config.setInteger(path, 0);
+        config.setInteger(path, config.getInteger(path) + value);
+    }
+    public void setDefaultStatPoint(int value) {
+        String path = "stat.points";
+        if (config.getConfig().get(path) == null)
+            config.setInteger(path, value);
+    }
+    public double getLimit() {
+        StatConfigData data = new StatConfigData();
+        return data.getLimitKey(statType.name());
+    }
     public Config getConfig() {
         return config;
     }

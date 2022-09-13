@@ -34,7 +34,7 @@ public class ChatEvent implements Listener {
                 }
             } else if(!Data.lore.containsKey(player.getUniqueId())){
 
-                config.addLore(chat);
+
                 player.sendMessage(ChatColor.GREEN + "> success : " + ChatColor.GRAY + "적용되었습니다!");
                 GUI.editGUI(config,data,player);
             }
