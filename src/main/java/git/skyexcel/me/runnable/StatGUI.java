@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,10 +44,7 @@ public class StatGUI extends BukkitRunnable {
                 int limit = (int) data.addModifier(StatType.valueOf(keys)).getLimit();
 
                 if (limit >= 0) {
-
                     if (item != null) {
-
-
                         List<String> lore = item.getItemMeta().getLore();
                         if (lore != null) {
                             UtilItem.newItem(name, item.getType(), 1, Data.translate(player, lore, keys)
@@ -57,9 +53,7 @@ public class StatGUI extends BukkitRunnable {
                             UtilItem.newItem(name, item.getType(), 1, Arrays.asList("")
                                     , slot, inv);
                         }
-
                     }
-
                 } else {
 
                     if (item != null) {

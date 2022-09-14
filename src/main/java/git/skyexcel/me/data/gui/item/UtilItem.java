@@ -1,6 +1,5 @@
 package git.skyexcel.me.data.gui.item;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

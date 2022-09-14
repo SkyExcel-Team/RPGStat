@@ -35,7 +35,6 @@ public class DamageEvent implements Listener {
         double damage = event.getDamage();
         EntityDamageEvent.DamageCause cause = event.getCause();
 
-
         switch (cause) { //낙하 데미지
             case FALL:
                 if (entity instanceof Player) {
@@ -44,7 +43,9 @@ public class DamageEvent implements Listener {
                     double fall = data.addModifier(StatType.FALL).getStat();
                     StatConfigData config = new StatConfigData();
 
-                    double result = damage * (1 / ((1 + (fall) * config.addModifier(StatType.FALL).getUpgrade()))); // 강화율과 방어력을 곱해 방어률에 적용시킨다.
+                    // 강화율과 방어력을 곱해 방어률에 적용시킨다. FAll 값이 0 일경우 일반 데미지를 입힘.
+                    double result = (fall != 0 ? damage * (1 / ((1 + (fall) * config.addModifier(StatType.FALL).getUpgrade()))) : event.getDamage());
+
 
                     event.setDamage(result);
                 }
@@ -81,9 +82,12 @@ public class DamageEvent implements Listener {
 
                         double defense = target_data.addModifier(StatType.DEFENSE).getStat();
 
-                        double newdamage = damage * (1 / (1 + (((defense * upgrade + ranged_damage)))));
+                        double newdamage = (defense != 0 ? damage * (1 / (1 + (((defense * upgrade + ranged_damage))))) : damage + ranged_damage);
+
 
                         event.setDamage(newdamage);
+
+
                     } else {
                         StatData player_data = new StatData(player);
 
@@ -130,8 +134,6 @@ public class DamageEvent implements Listener {
 
                         double newdamage = damage(config, target_data, damage, target.getInventory());
                         event.setDamage(newdamage);
-
-
                     }
                 } else {
                     apply_damage(event, entity, 500);
