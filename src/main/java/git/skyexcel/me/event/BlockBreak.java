@@ -66,11 +66,17 @@ public class BlockBreak implements Listener {
 
 
         if (ores.contains(item)) { //광물을 캘 시
-            int indexof = ores.indexOf(item);
-            ItemStack dropped = this.item.get(indexof);
+            event.setCancelled(true);
+            block.setType(Material.AIR);
+
+
+
+            ItemStack dropped = item;
+
             StatConfigData config = new StatConfigData();
 
             double mine = stat.addModifier(StatType.MINE).getStat() * config.addModifier(StatType.MINE).getUpgrade();
+            player.getWorld().dropItem(block.getLocation(), dropped);
 
             Random select = new Random();
             int random = select.nextInt((100));

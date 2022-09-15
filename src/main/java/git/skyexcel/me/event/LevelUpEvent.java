@@ -15,5 +15,6 @@ public class LevelUpEvent implements Listener {
         Player player = event.getPlayer();
         StatData stat = new StatData(player);
         stat.increaseStatPoint(1);
+        player.sendMessage("§b레벨업을 하여 스탯포인트 1을 얻었습니다!");
     }
 }

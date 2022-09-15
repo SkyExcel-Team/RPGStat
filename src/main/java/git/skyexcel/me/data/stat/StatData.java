@@ -38,7 +38,7 @@ public class StatData implements Stat {
                 case MAX_HEALTH:
                     setValue("stat." + statType.name(), value);
                     player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getMaxHealth() + value);
-
+                    player.sendMessage(player.getMaxHealth() + "");
                     break;
                 case FALL:
                     setValue("stat." + statType.name(), value);
@@ -56,7 +56,7 @@ public class StatData implements Stat {
                     float newspeed = (float) (speed + value / 100);
                     player.setWalkSpeed(newspeed);
 
-                    setValue("stat." + statType.name(), value);
+                     setValue("stat." + statType.name(), value);
                     break;
                 case ATTACK_DAMAGE:
                     setValue("stat." + statType.name(), value);

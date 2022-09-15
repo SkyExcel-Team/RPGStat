@@ -136,7 +136,24 @@ public class DamageEvent implements Listener {
                         event.setDamage(newdamage);
                     }
                 } else {
-                    apply_damage(event, entity, 500);
+                    if(damager instanceof  Player){
+                        Player player = (Player) damager;
+
+
+                        StatData player_data = new StatData(player);
+
+
+                        double ranged_damage = player_data.addModifier(StatType.ATTACK_DAMAGE).getStat();
+
+
+                        double newdamage = (damage + ranged_damage);
+
+
+                        event.setDamage(newdamage);
+                    }
+
+
+
                 }
                 break;
         }
