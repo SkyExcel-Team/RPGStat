@@ -70,7 +70,6 @@ public class BlockBreak implements Listener {
             block.setType(Material.AIR);
 
 
-
             ItemStack dropped = item;
 
             StatConfigData config = new StatConfigData();
@@ -94,19 +93,27 @@ public class BlockBreak implements Listener {
                 }
             }
         } else if (farm.contains(item)) {
-            int indexof = farm.indexOf(item);
-            ItemStack dropped = farm_item.get(indexof);
-
-            switch (git.skyexcel.me.util.Random.RandomByStat(player, StatType.FARM)) {
-                case 2:
-                    dropped.setAmount(2);
-                    loc.getWorld().dropItem(loc, dropped);
-                    break;
-                case 3:
-                    dropped.setAmount(3);
-                    loc.getWorld().dropItem(loc, dropped);
-                    break;
+            if (block.getType().equals(Material.PUMPKIN) || block.getType().equals(Material.MELON_BLOCK)) {
+                dropItem(player, item, loc);
+            } else if (block.getData() == 7) {
+                dropItem(player, item, loc);
             }
+        }
+    }
+
+    public void dropItem(Player player, ItemStack item, Location loc) {
+        int indexof = farm.indexOf(item);
+        ItemStack dropped = farm_item.get(indexof);
+
+        switch (git.skyexcel.me.util.Random.RandomByStat(player, StatType.FARM)) {
+            case 2:
+                dropped.setAmount(2);
+                loc.getWorld().dropItem(loc, dropped);
+                break;
+            case 3:
+                dropped.setAmount(3);
+                loc.getWorld().dropItem(loc, dropped);
+                break;
         }
     }
 }

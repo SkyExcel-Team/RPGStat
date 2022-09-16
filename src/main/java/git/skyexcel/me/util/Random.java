@@ -35,6 +35,7 @@ public class Random {
         int random = select.nextInt((100));
         if (random < mine) {
 
+
             return true;
         }
         return false;

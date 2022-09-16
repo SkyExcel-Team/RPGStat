@@ -56,7 +56,7 @@ public class StatData implements Stat {
                     float newspeed = (float) (speed + value / 100);
                     player.setWalkSpeed(newspeed);
 
-                     setValue("stat." + statType.name(), value);
+                    setValue("stat." + statType.name(), value);
                     break;
                 case ATTACK_DAMAGE:
                     setValue("stat." + statType.name(), value);
@@ -197,13 +197,13 @@ public class StatData implements Stat {
         StatConfigData data = new StatConfigData();
 
         if (getStat() != data.getLimitKey(statType.name())) {
-            if (config.getInteger(path) - value >= 0){
+            if (config.getInteger(path) - value >= 0) {
                 config.setInteger(path, config.getInteger(path) - value);
                 return true;
-            } else{
+            } else {
                 player.sendMessage("§c> 스텟 포인트가 부족합니다!");
             }
-        } else{
+        } else {
             player.sendMessage("§c> 최대 스탯입니다!");
         }
 
@@ -216,10 +216,34 @@ public class StatData implements Stat {
         config.setDouble(path, value);
     }
 
-    public void increaseValue(String path, double value) {
-        if (config.getConfig().get(path) == null)
-            config.setDouble(path, value);
-        config.setDouble(path, config.getDouble(path) - value);
+    public boolean increaseValue(String path, double value) {
+        boolean changed = false;
+
+        if (statType.equals(StatType.MAX_HEALTH)) {
+            if (player.getMaxHealth() - value >= 20) {
+                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getMaxHealth() - value);
+                changed = true;
+                return true;
+            } else {
+                player.sendMessage("§c최대 채력보다 적습니다! ");
+                return false;
+            }
+        } else if (statType.equals(StatType.SPEED)) {
+            float speed = player.getWalkSpeed();
+            System.out.println(value / 100);
+            float newspeed = (float) (speed - value / 100);
+            player.setWalkSpeed(newspeed);
+            changed = true;
+            return true;
+        }
+
+        if (changed) {
+            if (config.getConfig().get(path) == null)
+                config.setDouble(path, value);
+            config.setDouble(path, config.getDouble(path) - value);
+        }
+
+        return false;
     }
 
     public Integer getStatPoint() {
@@ -231,6 +255,21 @@ public class StatData implements Stat {
         if (config.getConfig().get(path) == null)
             config.setInteger(path, 0);
         config.setInteger(path, config.getInteger(path) + value);
+        setAttribute(0);
+
+    }
+
+    public void setAttribute(float value) {
+        switch (statType) {
+            case MAX_HEALTH:
+
+                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getMaxHealth() - value);
+
+                break;
+            case SPEED:
+                player.setWalkSpeed(value);
+                break;
+        }
     }
 
     public void setDefaultStatPoint(int value) {

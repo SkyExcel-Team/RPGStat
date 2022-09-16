@@ -44,8 +44,7 @@ public class DamageEvent implements Listener {
                     StatConfigData config = new StatConfigData();
 
                     // 강화율과 방어력을 곱해 방어률에 적용시킨다. FAll 값이 0 일경우 일반 데미지를 입힘.
-                    double result = (fall != 0 ? damage * (1 / ((1 + (fall) * config.addModifier(StatType.FALL).getUpgrade()))) : event.getDamage());
-
+                    double result = (fall != 0 ? damage * (1 / (((fall) * config.addModifier(StatType.FALL).getUpgrade()))) : event.getDamage());
 
                     event.setDamage(result);
                 }
@@ -136,24 +135,16 @@ public class DamageEvent implements Listener {
                         event.setDamage(newdamage);
                     }
                 } else {
-                    if(damager instanceof  Player){
+                    if (damager instanceof Player) {
                         Player player = (Player) damager;
-
 
                         StatData player_data = new StatData(player);
 
-
                         double ranged_damage = player_data.addModifier(StatType.ATTACK_DAMAGE).getStat();
-
-
                         double newdamage = (damage + ranged_damage);
-
 
                         event.setDamage(newdamage);
                     }
-
-
-
                 }
                 break;
         }

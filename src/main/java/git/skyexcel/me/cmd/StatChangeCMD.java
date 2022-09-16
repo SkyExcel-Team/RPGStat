@@ -107,9 +107,11 @@ public class StatChangeCMD implements CommandExecutor {
 
                             double statpoint = Double.parseDouble(args[3]);
                             StatData data = new StatData(target);
-                            data.addModifier(type).increaseValue("stats." + type.name(), statpoint);
-                            player.sendMessage("§a성공적으로 §f" + target.getDisplayName() + " §a님의 §7" + type.name() + "§a스텟을 §6" + statpoint + " §a만큼 제거하였습니다!");
-                        }
+                            if(data.addModifier(type).increaseValue("stat." + type.name(), statpoint)){
+                                player.sendMessage("§a성공적으로 §f" + target.getDisplayName() + " §a님의 §7" + type.name() + "§a스텟을 §6" + statpoint + " §a만큼 제거하였습니다!");
+
+                            }
+                         }
                     }
                     break;
 
