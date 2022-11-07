@@ -28,6 +28,8 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT") // The Spigot API with no shadowing. Requires the OSS repo.
     compileOnly("org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT")
 
+    implementation 'com.github.kwhat:jnativehook:2.2.2'
+
     compileOnly fileTree(dir: 'api', include: ['*.jar'])
 }
 
@@ -35,5 +37,5 @@ group 'org.example'
 version '1.0-SNAPSHOT'
 
 jar {
-    destinationDirectory.set(file('D:\\Project\\minecraft\\Commission\\1.12.2 mod\\plugins'))
+    destinationDirectory.set(file('D:\\Project\\minecraft\\Commission\\Servers\\1.16.5\\plugins\\'))
 }

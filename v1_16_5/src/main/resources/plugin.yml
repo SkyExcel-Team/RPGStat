@@ -1,0 +1,19 @@
+name: RPGStatSystem
+main: git.skyexcel.me.RPGStatSystem
+version: 1.0
+api-version: 1.16.5
+
+
+commands:
+  스탯설정:
+    description: 몹 아래나 명령어를 확인합니다.
+    aliases: [ 아레나 ]
+  스탯변경:
+    description: 몹 아래나 명령어를 확인합니다.
+    aliases: [ 아레나 ]
+  스탯보기:
+    description: 몹 아래나 명령어를 확인합니다.
+    aliases: [ 아레나 ]
+  스탯:
+    description: 몹 아래나 명령어를 확인합니다.
+    aliases: [ 아레나 ]

@@ -1,6 +1,7 @@
 package git.skyexcel.me;
 
 
+
 import git.skyexcel.me.cmd.StatCMD;
 import git.skyexcel.me.cmd.StatChangeCMD;
 import git.skyexcel.me.cmd.StatCheckCMD;
@@ -8,6 +9,7 @@ import git.skyexcel.me.cmd.StatEditCMD;
 import git.skyexcel.me.data.Config;
 import git.skyexcel.me.data.Data;
 import git.skyexcel.me.event.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -24,6 +26,7 @@ public class RPGStatSystem extends JavaPlugin {
 
     public static Config config;
 
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -36,11 +39,15 @@ public class RPGStatSystem extends JavaPlugin {
         this.config = new Config("config");
         config.setPlugin(plugin);
         config.loadDefaultPluginConfig();
-        Listener[] events = {  new DamageEvent(), new InventoryEvent(), new JoinEvent(), new LevelUpEvent(), new BlockBreak(), new FishEvent()};
+        Listener[] events = {new BlockBreak(),new DamageEvent(), new InventoryEvent(), new JoinEvent(), new LevelUpEvent(), new FishEvent()};
         PluginManager pm = Bukkit.getPluginManager();
+
         Arrays.stream(events).forEach(classes -> {
             pm.registerEvents(classes, this);
         });
+
+
+
     }
 
     @Override

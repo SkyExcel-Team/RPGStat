@@ -37,8 +37,11 @@ public class StatData implements Stat {
             switch (statType) {
                 case MAX_HEALTH:
                     setValue("stat." + statType.name(), value);
-                    player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getMaxHealth() + value);
-                    player.sendMessage(player.getMaxHealth() + "");
+                    StatConfigData config = new StatConfigData();
+
+                    player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(
+                            player.getMaxHealth() + (value * config.addModifier(StatType.MAX_HEALTH).getUpgrade()));
+
                     break;
                 case FALL:
                     setValue("stat." + statType.name(), value);

@@ -1,7 +1,6 @@
 name: RPGStatSystem
 main: git.skyexcel.me.RPGStatSystem
 version: 1.0
-api-version: 1.13
 
 
 commands:

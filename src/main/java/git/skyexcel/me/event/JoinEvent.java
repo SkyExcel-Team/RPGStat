@@ -19,5 +19,6 @@ public class JoinEvent implements Listener {
         data.setDefaultStatPoint(config.getDefaultPoint());
         config.setPlayer(player);
         config.test(data);
+        
     }
 }

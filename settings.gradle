@@ -1,2 +1,4 @@
 rootProject.name = 'RPGStatSystem'
+include 'v1_16_2'
+include 'v1_16_5'
 

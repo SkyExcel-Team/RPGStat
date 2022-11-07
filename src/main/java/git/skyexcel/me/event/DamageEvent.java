@@ -84,15 +84,18 @@ public class DamageEvent implements Listener {
                         double newdamage = (defense != 0 ? damage * (1 / (1 + (((defense * upgrade + ranged_damage))))) : damage + ranged_damage);
 
 
-                        event.setDamage(newdamage);
-
+                        if (Random.randomOverByStat(player, StatType.CRITICAL_DAMAGE)) {
+                            event.setDamage(newdamage * 2);
+                        } else {
+                            event.setDamage(newdamage);
+                        }
 
                     } else {
                         StatData player_data = new StatData(player);
 
                         double ranged_damage = player_data.addModifier(StatType.RANGED_ATTACK_DAMAGE).getStat();
 
-                        apply_damage(event, entity, ranged_damage);
+                        apply_damage(event, entity, player, ranged_damage);
                     }
                 }
                 break;
@@ -136,14 +139,23 @@ public class DamageEvent implements Listener {
                     }
                 } else {
                     if (damager instanceof Player) {
+
                         Player player = (Player) damager;
 
                         StatData player_data = new StatData(player);
+                        StatConfigData config = new StatConfigData();
 
-                        double ranged_damage = player_data.addModifier(StatType.ATTACK_DAMAGE).getStat();
-                        double newdamage = (damage + ranged_damage);
 
-                        event.setDamage(newdamage);
+                        double attack = player_data.addModifier(StatType.ATTACK_DAMAGE).getStat();
+                        double upgrade = config.addModifier(StatType.ATTACK_DAMAGE).getUpgrade();
+                        double newdamage = (damage + (attack * upgrade));
+
+                        if (Random.randomOverByStat(player, StatType.CRITICAL_DAMAGE)) {
+                            event.setDamage(newdamage * 2);
+                        } else {
+                            event.setDamage(newdamage);
+                        }
+
                     }
                 }
                 break;
@@ -170,7 +182,7 @@ public class DamageEvent implements Listener {
         return (damage * (1 / ((1 + (defense + getEPF(inv) * upgrade))))); // 강화율과 방어력을 곱해 방어률에 적용시킨다.
     }
 
-    public void apply_damage(EntityDamageByEntityEvent event, Entity entity, double damage) {
+    public void apply_damage(EntityDamageByEntityEvent event, Entity entity, Player player, double damage) {
         if (entity instanceof Zombie) {
             Zombie zombie = (Zombie) entity;
 
@@ -184,9 +196,14 @@ public class DamageEvent implements Listener {
                     (legs != null ? legs.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0) +
                     (boot != null ? boot.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0);
 
-            double newdamage = damage * (1 / (1 + defense));
+            double newdamage = (defense != 0 ? damage * (1 / (1 + ((defense)))) : damage + event.getDamage());
 
-            event.setDamage(newdamage);
+            if (Random.randomOverByStat(player, StatType.CRITICAL_DAMAGE)) {
+                event.setDamage(newdamage * 2);
+            } else {
+                event.setDamage(newdamage);
+            }
+
         } else if (entity instanceof Skeleton) {
             Skeleton zombie = (Skeleton) entity;
 
@@ -200,9 +217,13 @@ public class DamageEvent implements Listener {
                     (legs != null ? legs.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0) +
                     (boot != null ? boot.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0);
 
-            double newdamage = damage * (1 / (1 + defense));
+            double newdamage = (defense != 0 ? damage * (1 / (1 + ((defense)))) : damage + event.getDamage());
 
-            event.setDamage(newdamage);
+            if (Random.randomOverByStat(player, StatType.CRITICAL_DAMAGE)) {
+                event.setDamage(newdamage * 2);
+            } else {
+                event.setDamage(newdamage);
+            }
         } else if (entity instanceof WitherSkeleton) {
             WitherSkeleton zombie = (WitherSkeleton) entity;
 
@@ -216,15 +237,22 @@ public class DamageEvent implements Listener {
                     (legs != null ? legs.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0) +
                     (boot != null ? boot.getEnchantmentLevel(Enchantment.DAMAGE_ALL) : 0);
 
-            double newdamage = damage * (1 / (1 + defense));
+            double newdamage = (defense != 0 ? damage * (1 / (1 + ((defense)))) : damage + event.getDamage());
 
-            event.setDamage(newdamage);
-
+            if (Random.randomOverByStat(player, StatType.CRITICAL_DAMAGE)) {
+                event.setDamage(newdamage * 2);
+            } else {
+                event.setDamage(newdamage);
+            }
         } else if (!entities.contains(entity)) {
 
             double newdamage = damage + event.getDamage();
 
-            event.setDamage(newdamage);
+            if (Random.randomOverByStat(player, StatType.CRITICAL_DAMAGE)) {
+                event.setDamage(newdamage * 2);
+            } else {
+                event.setDamage(newdamage);
+            }
         }
     }
 }
